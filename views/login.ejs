@@ -1,0 +1,64 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
+      <script src="https://code.angularjs.org/1.5.5/angular-cookies.min.js"></script>
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<!-- jQuery library -->
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+      <script src="../javascripts/angularApp.js"></script>
+      <script src="../javascripts/controllers/ElizaCtrl.js"></script>
+      <link rel="stylesheet" type="text/css" href="../stylesheets/stylesheet.css"> 
+    <title>Eliza</title>
+  </head>
+  <body ng-app="appApp">
+
+
+
+
+  <div ng-controller = 'ElizaCtrl'  class="container">
+        
+    
+
+    <div id= "center">
+      <div id="response_box">
+
+        <ul ng-repeat="response in responses">
+          <li> {{response}} </li>
+        </ul>
+
+      </div>
+      <div id= "eliza_input" class="formField">
+
+
+          <form id="form" onsubmit="return false">
+            <input type = "text" name = "first_name" ng-model="human" ng-disabled="loaded" /><button ng-click= "elizaResponse()" color=" #4267B2" class="btn btn-default" id="message" type="button">Submit </button>
+          </form>
+
+          <button ng-click = "login()">Login</button>
+          <button ng-click= "getConvos()">Get Convos</button>
+          <button ng-click= " listConvos()">List Convos</button>
+          <br>
+          <ul ng-repeat="conv in convo_list">
+            <li> Convo ID:  {{conv.id}}                   Date: {{conv.date}}</li>
+          </ul>
+      </div>
+
+      <button ng-click = "printCookies()">Cookies </button>
+    <div>
+
+
+
+
+  </div>
+
+
+
+
+
+
+
+</body>
+</html>

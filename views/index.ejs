@@ -1,0 +1,22 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
+      <script src="https://code.angularjs.org/1.5.5/angular-cookies.min.js"></script>
+      <script src="javascripts/angularApp.js"></script>
+      <script src="javascripts/controllers/HomeCtrl.js"></script>
+    <title></title>
+  </head>
+  <body ng-app="appApp">
+  <div>
+  <h1>MAIN</h1>
+  </div>
+  <div ng-controller = 'HomeCtrl'>
+          <ul ng-repeat="post in posts">
+            <li ng-show= "display">{{post}}</li>
+          </ul>
+          <a href="/eliza">Eliza</a>
+  </div>
+</body>
+</html>
