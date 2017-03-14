@@ -18,13 +18,28 @@ router.get('/register',function(req, res, next){
 
 router.post('/login', function(req,res,next){
 
-       passport.authenticate('local', function (err, user, info) {
-            if(err) { return next(err); }
-            if(!user) { return res.json({ "status" : 'error' , "message" : info})}
-        });
-       res.json({"status" : 'OK'});
-});
+passport.authenticate('local', function(err, user, info){
+    
+              if (err) {
+                  res.json({
+                   "status" : "ERROR",
+                   "errMess" : err
+                 });
+              }
 
+              // If a user is found
+              if( user ){
+                res.json({
+                  "status" : "OK"
+                });
+              } else {
+                res.json({
+                   "status" : "ERROR",
+                   "errMess" : info
+                 });
+              }
+  })(req, res);
+});
 
 router.post('/addUser', function(req,res,next){
 
