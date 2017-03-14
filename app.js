@@ -5,7 +5,11 @@ var logger = require('morgan');
 var session = require('express-session');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var passport = require('passport');
 var db = require('./model/db');
+var userObj = require('./model/User');
+var pass_cofig = require('./config/passport.js');
+var index = require('./routes/index');
 
 
 var app = express();
@@ -20,8 +24,11 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(session({resave: true, saveUninitialized: true, secret: 'IFUCKEDMYDAD', cookie: { maxAge: 60000 }}));
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(passport.initialize());
+app.use(passport.session());
 app.use('/', index);
 
 

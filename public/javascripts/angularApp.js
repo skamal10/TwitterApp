@@ -9,9 +9,9 @@ module('myApp', []).
         templateUrl:'views/index.ejs',
         controller: 'HomeCtrl'
       })
-      .when('/eliza', {
-        templateUrl:'views/eliza.ejs',
-        controller: 'ElizaCtrl'
+      .when('/login', {
+        templateUrl:'views/login.ejs',
+        controller: 'LoginCtrl'
       })
       .otherwise({
         redirectTo: '/'
