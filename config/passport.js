@@ -16,6 +16,7 @@ passport.deserializeUser(function(id, done) {
 
 passport.use(new LocalStrategy(
   function(username, password, done) {
+
     User.findOne({ username: username }, function (err, user) {
     	if (err) { return done(err); }
     	if (!user) { 
@@ -39,40 +40,6 @@ passport.use(new LocalStrategy(
 ));
 
 
-passport.use('local-signup', new LocalStrategy(
-  function(req, username, password, done) {
-     process.nextTick(function() {
-
-        User.findOne({ username :  username }, function(err, user) {
-          
-            if (err){
-                return done(err);
-            }
-
-            if (user) {
-                return done(null, false, req.flash('signupMessage', 'There is a user with that username already!'));
-            } else {
-
-               
-                var newUser = new User();
-                newUser.username   = username;
-                newUser.setPassword(password);
-         		newUser.createValidateKey();
-
-                // save the user
-                newUser.save(function(err) {
-                    if (err){
-                        throw err;
-                    }
-                    return done(null, newUser);
-                });
-            }
-
-        });    
-
-        });
-
-    }));
 
 
 

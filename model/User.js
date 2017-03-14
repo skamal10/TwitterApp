@@ -31,17 +31,16 @@ var userSchema = new mongoose.Schema({
 
 userSchema.methods.setPassword = function(password){
 	this.salt = crypto.randomBytes(16).toString('hex');
-	this.hash = crypto.pbkdf2Sync(password, this.salt, 1000, 64).toString('hex');
+	this.hash = crypto.pbkdf2Sync(password, this.salt, 1000, 64,'sha1').toString('hex');
 }
 
 userSchema.methods.checkPassword = function(password){
-	var hash = crypto.pbkdf22Sync(password, this.salt, 1000, 64).toString('hex');
+	var hash = crypto.pbkdf22Sync(password, this.salt, 1000, 64,'sha1').toString('hex');
 	return this.hash === hash;
 }
 
 userSchema.methods.createValidateKey = function(){
 	this.verify_key = crypto.randomBytes(16).toString('hex');
-	return this.verify_key;
 }
 
 userSchema.methods.validateAccount = function(validateKey){
