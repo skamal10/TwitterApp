@@ -18,7 +18,7 @@ router.get('/register',function(req, res, next){
 
 router.post('/login', function(req,res,next){
 
-passport.authenticate('local', function(err, user, info){
+passport.authenticate('local', {session: true}, function(err, user, info){
     
               if (err) {
                   res.json({
@@ -121,6 +121,10 @@ router.post('/verify', function(req,res,next){
 
 });
 
+router.post('/checkSession', function(req,res,next){
+    req.logout();
+    res.send("ok");
+});
 
 var isLoggedIn = function(req, res, next){
    res.send(req.isAuthenticated() ? req.user : '0');
