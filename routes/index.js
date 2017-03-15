@@ -14,32 +14,52 @@ router.get('/register',function(req, res, next){
   res.render('register');
 });
 
+// router.post('/login',passport.authenticate('local'), function(req, res) {
+//     res.json({ "status" : "OK"});
+//   });
 
-
-router.post('/login', function(req,res,next){
-
-passport.authenticate('local', {session: true}, function(err, user, info){
-    
-              if (err) {
-                  res.json({
-                   "status" : "ERROR",
-                   "errMess" : err
-                 });
-              }
-
-              // If a user is found
-              if( user ){
-                res.json({
-                  "status" : "OK"
-                });
-              } else {
-                res.json({
-                   "status" : "ERROR",
-                   "errMess" : info
-                 });
-              }
-  })(req, res);
+router.post('/login', function(req, res, next) {
+  passport.authenticate('local', function(err, user, info) {
+    if (err) {
+      return next(err); 
+    }
+    if (! user) {
+      return res.send({ status : "ERROR", message : 'authentication failed' });
+    }
+    req.login(user, loginErr => {
+      if (loginErr) {
+        return next(loginErr);
+      }
+      return res.send({ status : true, message : 'authentication succeeded' });
+    });      
+  })(req, res, next);
 });
+
+
+// router.post('/login', function(req,res,next){
+
+// passport.authenticate('local', {session: true}, function(err, user, info){
+    
+//               if (err) {
+//                   res.json({
+//                    "status" : "ERROR",
+//                    "errMess" : err
+//                  });
+//               }
+
+//               // If a user is found
+//               if( user ){
+//                 res.json({
+//                   "status" : "OK"
+//                 });
+//               } else {
+//                 res.json({
+//                    "status" : "ERROR",
+//                    "errMess" : info
+//                  });
+//               }
+//   })(req, res);
+// });
 
 router.post('/addUser', function(req,res,next){
 

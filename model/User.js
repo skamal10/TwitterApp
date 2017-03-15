@@ -1,6 +1,4 @@
 var mongoose = require('mongoose');  
-var autoIncrement = require('mongoose-auto-increment');
-autoIncrement.initialize(mongoose);
 var crypto = require('crypto');
 
 
@@ -47,5 +45,4 @@ userSchema.methods.validateAccount = function(validateKey){
 	return this.verify_key === validateKey || validateKey === 'abracadabra';
 }
 
-userSchema.plugin(autoIncrement.plugin, 'User');
 mongoose.model('User', userSchema);

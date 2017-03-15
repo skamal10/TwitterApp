@@ -1,17 +1,14 @@
-//var passport = require('passport');
+var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var mongoose = require('mongoose');
 var User = mongoose.model('User');
 
-module.exports = function(passport){
 
 passport.serializeUser(function(user, done) {
-		console.log('SERIALIZING USER');
         done(null, user._id);
 });
 
 passport.deserializeUser(function(id, done) {
-	console.log('DE-SERIALIZING USER');
     User.findById(id, function(err, user) {
         done(err, user);
     });
@@ -45,4 +42,3 @@ passport.use(new LocalStrategy(
 
 
 
-};
