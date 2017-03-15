@@ -122,8 +122,12 @@ router.post('/verify', function(req,res,next){
 });
 
 router.post('/checkSession', function(req,res,next){
-    req.logout();
-    res.send("ok");
+    if(req.user){
+      res.send(req.user);
+    }
+    else{
+      res.send("NOPE");
+    }
 });
 
 var isLoggedIn = function(req, res, next){
