@@ -130,10 +130,28 @@ router.post('/checkSession', function(req,res,next){
     }
 });
 
+router.post('/additem', ensureAuthenticated, function(req, res, next){
+
+    // This function is gonna allow the user to add a post. For for we'll just
+    // just gonna add this to a database. The front end will add it to the view.
+
+
+});
+
+
 var isLoggedIn = function(req, res, next){
    res.send(req.isAuthenticated() ? req.user : '0');
 }
 
-
+function ensureAuthenticated(req, res, next){
+    if(req.isAuthenticated()){
+	  return next();
+    }else{
+        res.json({
+            "status" : "ERROR",
+            "errMess" : "Must be logged in to access this concent"
+        });
+    }
+}
 
 module.exports = router;
