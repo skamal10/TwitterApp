@@ -169,17 +169,20 @@ router.post('/additem', ensureAuthenticated, function(req, res, next){
 	  newItem.user = req.user.username;
 	  
 	  newItem.save(function(err){
-		if(err){	  
+		if(err){
+		    console.error(err);
 		    res.json({
 			  "status" : "ERROR",
 			  "errMess" : "Something went wrong with the tweet"
 		    });
 		}
-		res.status(200);
-		res.json({
-		    "status": "OK",
-		    "id"   : this._id
-		});
+		else{
+		    res.status(200);
+		    res.json({
+			  "status": "OK",
+			  "id"   : newItem._id
+		    });
+		}
 	  });
     }
 });
