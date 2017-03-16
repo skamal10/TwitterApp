@@ -168,7 +168,7 @@ router.post('/additem', ensureAuthenticated, function(req, res, next){
 	  newItem.body = req.body.content;
 	  newItem.user = req.user.username;
 	  
-	  user.save(function(err){
+	  newItem.save(function(err){
 		if(err){	  
 		    res.json({
 			  "status" : "ERROR",
@@ -178,7 +178,7 @@ router.post('/additem', ensureAuthenticated, function(req, res, next){
 		res.status(200);
 		res.json({
 		    "status": "OK",
-		    "id"   : 99
+		    "id"   : this._id
 		});
 	  });
     }
