@@ -189,20 +189,17 @@ router.post('/additem', ensureAuthenticated, function(req, res, next){
 
 
 router.post('/search', ensureAuthenticated, function(req, res, next){
-    
-    console.log("Entering the function");
-    
+     
     var start_date;
     if(req.body.timestamp)
 	  start_date = new Date(req.body.timestamp * 1000);
     else
 	  start_date = new Date().now();
     
-    console.log("We sorted out all the date shit");
-
-    Item.find({ 'create_date': {$lte: start_date} }).sort({'create_date': -1}).toArray( function(err, itemList) {
+    Item.find({ 'create_date': {$lte: start_date} }, function(err, itemList) {
 	  console.log("We manage to find the lists, sorted and parse to array");    
 	  if (err){
+		console.error(err);
 		res.json({
 		    "status" : "ERROR",
 		    "errMess" : "There was an error"
@@ -219,13 +216,13 @@ router.post('/search', ensureAuthenticated, function(req, res, next){
 		return_items.status = 'OK';
 		return_items.items = [];
 
-		for(var i = 0; i < numItems; i++){
+		for(var i = 0; i < numItems && i < itemList.length; i++){
 		    
 		    var current_item = {};
 		    current_item.id = itemList[i]._id;
-		    current_item.username = itemList[i].username;
+		    current_item.username = itemList[i].user;
 		    current_item.content = itemList[i].body;
-		    current_item.timestamp = itemList[i].create_date.getTime() / 1000;
+		    current_item.timestamp = Math.round(itemList[i].create_date.getTime() / 1000);
 		    
 		    return_items.items.push(current_item);
 		}
@@ -246,13 +243,21 @@ router.get('/item/:id', ensureAuthenticated, function(req, res, next){
 		});
 	  }
 	  else{
-		var return_item = {};
-		return_item.id = item._id;
-		return_item.username = item.username;
-		return_item.content = item.body;
-		return_item.timestamp = item.create_date.getTime() / 1000;
+		if(item){
+		    var return_item = {};
+		    return_item.id = item._id;
+		    return_item.username = item.user;
+		    return_item.content = item.body;
+		    return_item.timestamp = Math.round(item.create_date.getTime() / 1000);
 
-		res.send(return_item);
+		    res.send(return_item);
+		}
+		else{ 
+		    res.json({
+			  "status" : "ERROR",
+			  "errMess" : "Item with that id doesn't exist"
+		    });
+		}
 	  }
     });
 });
