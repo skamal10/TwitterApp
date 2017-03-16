@@ -196,7 +196,7 @@ router.post('/search', ensureAuthenticated, function(req, res, next){
     else
 	  start_date = new Date().now();
     
-    Item.find({ 'create_date': {$lte: start_date} }, function(err, itemList) {
+    Item.find({ 'create_date': {$lte: start_date} }).sort('-create_date').exec(function(err, itemList) {
 	  console.log("We manage to find the lists, sorted and parse to array");    
 	  if (err){
 		console.error(err);
