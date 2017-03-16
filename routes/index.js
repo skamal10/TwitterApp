@@ -3,7 +3,7 @@ var router = express.Router();
 var passport = require('passport');
 var mongoose = require('mongoose');
 var User = mongoose.model('User');
-
+var Item = mongoose.model('Item');
 
 
 router.get('/login', function(req, res, next) {
@@ -150,21 +150,116 @@ router.post('/checkSession', function(req,res,next){
     }
 });
 
+
 router.post('/additem', ensureAuthenticated, function(req, res, next){
+    
+    // First we check if the tweet doesnt exceed the limit
+    if(req.body.content.length > 140){    
+	  res.json({
+		"status" : "ERROR",
+            "errMess" : "Tweet must be less thna 140 characters long"
+	  });
+    }
+    else{
 
     // This function is gonna allow the user to add a post. For for we'll just
     // just gonna add this to a database. The front end will add it to the view.
-
-
+	  var newItem = new Item();
+	  newItem.body = req.body.content;
+	  newItem.user = req.user.username;
+	  
+	  user.save(function(err){
+		if(err){	  
+		    res.json({
+			  "status" : "ERROR",
+			  "errMess" : "Something went wrong with the tweet"
+		    });
+		}
+		res.status(200);
+		res.json({
+		    "status": "OK",
+		    "id"   : 99
+		});
+	  });
+    }
 });
 
+
+router.post('/search', ensureAuthenticated, function(req, res, next){
+    
+    console.log("Entering the function");
+    
+    var start_date;
+    if(req.body.timestamp)
+	  start_date = new Date(req.body.timestamp * 1000);
+    else
+	  start_date = new Date().now();
+    
+    console.log("We sorted out all the date shit");
+
+    Item.find({ 'create_date': {$lte: start_date} }).sort({'create_date': -1}).toArray( function(err, itemList) {
+	  console.log("We manage to find the lists, sorted and parse to array");    
+	  if (err){
+		res.json({
+		    "status" : "ERROR",
+		    "errMess" : "There was an error"
+		});
+	  }
+	  else{
+		var numItems;
+		if(req.body.limit)
+		    numItems = req.body.limit;
+		else
+		    numItems = 100;
+		
+		var return_items = {}
+		return_items.status = 'OK';
+		return_items.items = [];
+
+		for(var i = 0; i < numItems; i++){
+		    
+		    var current_item = {};
+		    current_item.id = itemList[i]._id;
+		    current_item.username = itemList[i].username;
+		    current_item.content = itemList[i].body;
+		    current_item.timestamp = itemList[i].create_date.getTime() / 1000;
+		    
+		    return_items.items.push(current_item);
+		}
+
+		res.send(return_items);
+	  }
+
+    });
+});
+
+
+router.get('/item/:id', ensureAuthenticated, function(req, res, next){
+    Item.findOne({'_id': req.params.id}, function(err, item){ 
+	  if (err){
+		res.json({
+		    "status" : "ERROR",
+		    "errMess" : "There was an error"
+		});
+	  }
+	  else{
+		var return_item = {};
+		return_item.id = item._id;
+		return_item.username = item.username;
+		return_item.content = item.body;
+		return_item.timestamp = item.create_date.getTime() / 1000;
+
+		res.send(return_item);
+	  }
+    });
+});
 
 var isLoggedIn = function(req, res, next){
    res.send(req.isAuthenticated() ? req.user : '0');
 }
 
 function ensureAuthenticated(req, res, next){
-    if(req.isAuthenticated()){
+    if(req.isAuthenticated() && req.user){
 	  return next();
     }else{
         res.json({

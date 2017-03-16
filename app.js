@@ -9,6 +9,7 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var db = require('./model/db');
 var userObj = require('./model/User');
+var itemObj = require('./model/Item');
 var pass_cofig = require('./config/passport.js');
 var index = require('./routes/index');
 
