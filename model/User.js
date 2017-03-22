@@ -1,8 +1,6 @@
 var mongoose = require('mongoose');  
 var crypto = require('crypto');
 
-
-
 var userSchema = new mongoose.Schema({  
   verified: {
   	type: Boolean,

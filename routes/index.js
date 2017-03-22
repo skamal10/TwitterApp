@@ -10,6 +10,7 @@ router.get('/login', function(req, res, next) {
 	res.render('login');
 });
 
+
 router.get('/register',function(req, res, next){
   res.render('register');
 });
@@ -30,40 +31,22 @@ router.post('/login', function(req, res, next) {
       if (loginErr) {
         return next(loginErr);
       }
-      return res.send({ status : true, message : 'authentication succeeded' });
+      return res.send({ status : "OK", message : 'authentication succeeded' });
     });      
   })(req, res, next);
 });
 
-
-// router.post('/login', function(req,res,next){
-
-// passport.authenticate('local', {session: true}, function(err, user, info){
-    
-//               if (err) {
-//                   res.json({
-//                    "status" : "ERROR",
-//                    "errMess" : err
-//                  });
-//               }
-
-//               // If a user is found
-//               if( user ){
-//                 res.json({
-//                   "status" : "OK"
-//                 });
-//               } else {
-//                 res.json({
-//                    "status" : "ERROR",
-//                    "errMess" : info
-//                  });
-//               }
-//   })(req, res);
-// });
+router.post('/logout', ensureAuthenticated, function(req,res){
+  req.session.destroy(function (err) {
+    res.json({ status: "OK" }); 
+  });
+});
 
 router.post('/addUser', function(req,res,next){
 
-  User.findOne({ 'username':  req.body.username }, function(err, user) {
+  
+User.findOne( { $or:[{'username': req.body.username}, {'email': req.body.email } ]}, function(err, user) {
+  //User.findOne({ 'username':  req.body.username }, function(err, user) {
 
               if (err){
                   res.json({
@@ -98,6 +81,8 @@ router.post('/addUser', function(req,res,next){
     });
 
 });
+
+
 
 router.post('/verify', function(req,res,next){
   var email = req.body.email;
@@ -155,10 +140,11 @@ router.post('/additem', ensureAuthenticated, function(req, res, next){
     
     // First we check if the tweet doesnt exceed the limit
     if(req.body.content.length > 140){    
-	  res.json({
-		"status" : "ERROR",
+	       res.json({
+		        "status" : "ERROR",
             "errMess" : "Tweet must be less thna 140 characters long"
-	  });
+	   });
+
     }
     else{
 
@@ -170,16 +156,19 @@ router.post('/additem', ensureAuthenticated, function(req, res, next){
 	  
 	  newItem.save(function(err){
 		if(err){	  
+        console.log(err);
 		    res.json({
 			  "status" : "ERROR",
 			  "errMess" : "Something went wrong with the tweet"
 		    });
 		}
-		res.status(200);
-		res.json({
-		    "status": "OK",
-		    "id"   : this._id
-		});
+    else{
+      res.status(200);
+      res.json({
+        "status": "OK",
+        "id"   : newItem._id
+      });
+    }
 	  });
     }
 });
