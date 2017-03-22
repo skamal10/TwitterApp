@@ -197,7 +197,7 @@ router.post('/search', ensureAuthenticated, function(req, res, next){
 	  }
 	  else{
 		var numItems;
-		if(req.body.limit)
+		if(req.body.limit && req.body.limit<= 100)
 		    numItems = req.body.limit;
 		else
 		    numItems = 25;
