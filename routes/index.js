@@ -135,59 +135,42 @@ router.post('/checkSession', function(req,res,next){
     }
 });
 
-
+  
 router.post('/additem', ensureAuthenticated, function(req, res, next){
     
     // First we check if the tweet doesnt exceed the limit
     if(req.body.content.length > 140){    
-	       res.json({
-		        "status" : "ERROR",
+    res.json({
+    "status" : "ERROR",
             "errMess" : "Tweet must be less thna 140 characters long"
-	   });
-
+    });
     }
     else{
 
     // This function is gonna allow the user to add a post. For for we'll just
     // just gonna add this to a database. The front end will add it to the view.
-	  var newItem = new Item();
-	  newItem.body = req.body.content;
-	  newItem.user = req.user.username;
-	  
-	  newItem.save(function(err){
-<<<<<<< HEAD
-		if(err){	  
-        console.log(err);
-=======
-		if(err){
-		    console.error(err);
->>>>>>> dd377f5fe4a014aae731e4cfd4c690651e693b62
-		    res.json({
-			  "status" : "ERROR",
-			  "errMess" : "Something went wrong with the tweet"
-		    });
-		}
-<<<<<<< HEAD
+    var newItem = new Item();
+    newItem.body = req.body.content;
+    newItem.user = req.user.username;
+    
+    newItem.save(function(err){
+    if(err){
+        console.error(err);
+        res.json({
+        "status" : "ERROR",
+        "errMess" : "Something went wrong with the tweet"
+        });
+    }
     else{
-      res.status(200);
-      res.json({
+        res.status(200);
+        res.json({
         "status": "OK",
         "id"   : newItem._id
-      });
+        });
     }
-=======
-		else{
-		    res.status(200);
-		    res.json({
-			  "status": "OK",
-			  "id"   : newItem._id
-		    });
-		}
->>>>>>> dd377f5fe4a014aae731e4cfd4c690651e693b62
-	  });
+    });
     }
 });
-
 
 router.post('/search', ensureAuthenticated, function(req, res, next){
      
