@@ -174,19 +174,14 @@ router.post('/additem', ensureAuthenticated, function(req, res, next){
 
 router.post('/search', ensureAuthenticated, function(req, res, next){
      
-    console.log(req.body.timestamp);
     var start_date;
     if(req.body.timestamp){
-        console.log("FIRST");
          start_date = new Date(req.body.timestamp);
     }
     else{
-          console.log("SECOND");
           start_date = new Date();
     }
 
-  console.log(start_date);
-    
     Item.find({ 'create_date': {$lte: start_date} }).sort('-create_date').exec(function(err, itemList) {   
 	  if (err){
 		console.error(err);
@@ -205,7 +200,7 @@ router.post('/search', ensureAuthenticated, function(req, res, next){
 		var return_items = {}
 		return_items.status = 'OK';
 		return_items.items = [];
-
+    var counter=0;
 		for(var i = 0; i < numItems && i < itemList.length; i++){
 		    
 		    var current_item = {};
@@ -215,8 +210,9 @@ router.post('/search', ensureAuthenticated, function(req, res, next){
 		    current_item.timestamp = Math.round(itemList[i].create_date.getTime() / 1000);
 		    
 		    return_items.items.push(current_item);
+        counter++;
 		}
-
+    console.log(counter);
 		res.send(return_items);
 	  }
 
