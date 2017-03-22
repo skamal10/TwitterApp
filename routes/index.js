@@ -27,7 +27,7 @@ router.post('/login', function(req, res, next) {
     if (! user) {
       return res.send({ status : "ERROR", message : 'authentication failed' });
     }
-    req.login(user, loginErr => {
+    req.login(user, function(loginErr){
       if (loginErr) {
         return next(loginErr);
       }
@@ -46,8 +46,6 @@ router.post('/addUser', function(req,res,next){
 
   
 User.findOne( { $or:[{'username': req.body.username}, {'email': req.body.email } ]}, function(err, user) {
-  //User.findOne({ 'username':  req.body.username }, function(err, user) {
-
               if (err){
                   res.json({
                    "status" : "ERROR",
@@ -234,7 +232,8 @@ router.get('/item/:id', ensureAuthenticated, function(req, res, next){
 		    return_item.content = item.body;
 		    return_item.timestamp = Math.round(item.create_date.getTime() / 1000);
 
-		    res.send(return_item);
+		    res.json({"status" : "OK", 
+                   "item": return_item});
 		}
 		else{ 
 		    res.json({
