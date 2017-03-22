@@ -176,10 +176,14 @@ router.post('/search', ensureAuthenticated, function(req, res, next){
      
     console.log(req.body.timestamp);
     var start_date;
-    if(req.body.timestamp)
-	  start_date = new Date(req.body.timestamp);
-    else
-	  start_date = new Date().now();
+    if(req.body.timestamp){
+        console.log("FIRST");
+         start_date = new Date(req.body.timestamp);
+    }
+    else{
+          console.log("SECOND");
+          start_date = new Date();
+    }
 
   console.log(start_date);
     
