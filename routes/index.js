@@ -200,7 +200,7 @@ router.post('/search', ensureAuthenticated, function(req, res, next){
 		if(req.body.limit)
 		    numItems = req.body.limit;
 		else
-		    numItems = 100;
+		    numItems = 25;
 		
 		var return_items = {}
 		return_items.status = 'OK';
