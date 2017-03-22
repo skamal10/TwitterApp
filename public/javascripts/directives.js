@@ -1,11 +1,17 @@
-var app = angular.module('myApp', []);
+var app = angular.module('appApp', []);
 app.directive('myTodo', function(){
     return {
-      restrict: 'EA',
-      templateUrl: 'todo.tpl.html',
+      restrict: 'E',
+      templateUrl: 'tweet.ejs',
       scope: {
-        list: '=',
-        title: '@'
+        content: '=',
+        username: '='
       }
     };
   });
+
+
+app.controller('tweet', function($scope){
+  $scope.content = "I FUCKED MY DAD";
+  $scope.username = "skamal10";
+});

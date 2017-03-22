@@ -160,6 +160,8 @@ router.post('/additem', ensureAuthenticated, function(req, res, next){
         });
     }
     else{
+
+      console.log(newItem.create_date);
         res.status(200);
         res.json({
         "status": "OK",
@@ -172,14 +174,16 @@ router.post('/additem', ensureAuthenticated, function(req, res, next){
 
 router.post('/search', ensureAuthenticated, function(req, res, next){
      
+    console.log(req.body.timestamp);
     var start_date;
     if(req.body.timestamp)
-	  start_date = new Date(req.body.timestamp * 1000);
+	  start_date = new Date(req.body.timestamp);
     else
 	  start_date = new Date().now();
+
+  console.log(start_date);
     
-    Item.find({ 'create_date': {$lte: start_date} }).sort('-create_date').exec(function(err, itemList) {
-	  console.log("We manage to find the lists, sorted and parse to array");    
+    Item.find({ 'create_date': {$lte: start_date} }).sort('-create_date').exec(function(err, itemList) {   
 	  if (err){
 		console.error(err);
 		res.json({
