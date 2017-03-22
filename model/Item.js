@@ -7,7 +7,7 @@ var itemSchema = new mongoose.Schema({
     user: {
 	  type: String,
 	  required: true,
-	  unique: true
+	  unique: false
     },
     body: {
 	 type: String,
