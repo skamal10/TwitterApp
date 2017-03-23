@@ -194,6 +194,7 @@ router.post('/search', ensureAuthenticated, function(req, res, next){
 		return_items.status = 'OK';
 		return_items.items = [];
 
+    console.log(itemList[0]);
     for(var i=0; i<itemList.length; i++){
       
         var tempItem = {};
@@ -228,7 +229,6 @@ router.get('/item/:id', ensureAuthenticated, function(req, res, next){
 		    // return_item.timestamp = Math.round(item.timestamp.getTime() / 1000);
 
         item.id = item._id;
-        console.log(item.id);
 		    res.json({"status" : "OK", 
                    "item": item});
 		}
