@@ -8,6 +8,7 @@ angular.module('appApp', []).controller('LoginCtrl', function ($scope, $http) {
  };
 
 
+
 $scope.submitLogin = function(){
 
 	$http({
@@ -29,7 +30,7 @@ $scope.viewLoggedInUser = function(){
           url     : '/checkSession',
          })
           .success(function(data) {
-          		console.log(data);
+          		console.log(new Date());
           });
 
 }

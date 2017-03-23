@@ -10,7 +10,6 @@ router.get('/login', function(req, res, next) {
 	res.render('login');
 });
 
-
 router.get('/register',function(req, res, next){
   res.render('register');
 });
@@ -25,7 +24,7 @@ router.post('/login', function(req, res, next) {
       return next(err); 
     }
     if (! user) {
-      return res.send({ status : "ERROR", message : 'authentication failed' });
+      return res.send({ status : "error", message : 'authentication failed' });
     }
     req.login(user, function(loginErr){
       if (loginErr) {
@@ -48,14 +47,14 @@ router.post('/addUser', function(req,res,next){
 User.findOne( { $or:[{'username': req.body.username}, {'email': req.body.email } ]}, function(err, user) {
               if (err){
                   res.json({
-                   "status" : "ERROR",
+                   "status" : "error",
                    "errMess" : "There was an error"
                  });
               }
 
               if (user) {
                   res.json({
-                   "status" : "ERROR",
+                   "status" : "error",
                    "errMess" : "User already exists"
                  });                
               }
@@ -89,25 +88,25 @@ router.post('/verify', function(req,res,next){
   User.findOne({'email' : email}, function(err, user){
       if(err){
          res.json({
-                   "status" : "ERROR",
+                   "status" : "error",
                    "errMess" : "There was an error"
                  });
       }
       else if(!user){ // user not found
         res.json({
-                   "status" : "ERROR",
+                   "status" : "error",
                    "errMess" : "No user associated with that email"
                  });
       }
       else if(user && user.verified){ // user is already verified
           res.json({
-                   "status" : "ERROR",
+                   "status" : "error",
                    "errMess" : "User is already validated"
                  });
       }
       else if(!user.validateAccount(key)){ // invalid key
             res.json({
-                   "status" : "ERROR",
+                   "status" : "error",
                    "errMess" : "Incorrect validation key"
                  });
       }
@@ -139,7 +138,7 @@ router.post('/additem', ensureAuthenticated, function(req, res, next){
     // First we check if the tweet doesnt exceed the limit
     if(req.body.content.length > 140){    
     res.json({
-    "status" : "ERROR",
+    "status" : "error",
             "errMess" : "Tweet must be less thna 140 characters long"
     });
     }
@@ -155,7 +154,7 @@ router.post('/additem', ensureAuthenticated, function(req, res, next){
     if(err){
         console.error(err);
         res.json({
-        "status" : "ERROR",
+        "status" : "error",
         "errMess" : "Something went wrong with the tweet"
         });
     }
@@ -179,8 +178,7 @@ router.post('/search', ensureAuthenticated, function(req, res, next){
          start_date = new Date(req.body.timestamp);
     }
     else{
-          var temp = new Date().getTime();
-          start_date = new Date(temp);
+          start_date = new Date()
     }
 
     console.log(start_date);
@@ -189,7 +187,7 @@ router.post('/search', ensureAuthenticated, function(req, res, next){
 	  if (err){
 		console.error(err);
 		res.json({
-		    "status" : "ERROR",
+		    "status" : "error",
 		    "errMess" : "There was an error"
 		});
 	  }
@@ -227,7 +225,7 @@ router.get('/item/:id', ensureAuthenticated, function(req, res, next){
     Item.findOne({'_id': req.params.id}, function(err, item){ 
 	  if (err){
 		res.json({
-		    "status" : "ERROR",
+		    "status" : "error",
 		    "errMess" : "There was an error"
 		});
 	  }
@@ -244,7 +242,7 @@ router.get('/item/:id', ensureAuthenticated, function(req, res, next){
 		}
 		else{ 
 		    res.json({
-			  "status" : "ERROR",
+			  "status" : "error",
 			  "errMess" : "Item with that id doesn't exist"
 		    });
 		}
@@ -261,7 +259,7 @@ function ensureAuthenticated(req, res, next){
 	  return next();
     }else{
         res.json({
-            "status" : "ERROR",
+            "status" : "error",
             "errMess" : "Must be logged in to access this concent"
         });
     }
