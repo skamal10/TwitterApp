@@ -139,8 +139,8 @@ router.post('/additem', ensureAuthenticated, function(req, res, next){
     // This function is gonna allow the user to add a post. For for we'll just
     // just gonna add this to a database. The front end will add it to the view.
     var newItem = new Item();
-    newItem.body = req.body.content;
-    newItem.user = req.user.username;
+    newItem.content = req.body.content;
+    newItem.username = req.user.username;
     
     newItem.save(function(err){
     if(err){
@@ -151,8 +151,6 @@ router.post('/additem', ensureAuthenticated, function(req, res, next){
         });
     }
     else{
-
-      console.log(newItem.create_date);
         res.status(200);
         res.json({
         "status": "OK",
@@ -173,9 +171,17 @@ router.post('/search', ensureAuthenticated, function(req, res, next){
           start_date = new Date();
     }
 
-    console.log(start_date);
+    var numItems;
+    if(req.body.limit && req.body.limit<= 100){
+              numItems = req.body.limit;
+    }
+    else{
+        numItems = 25;
+    }
 
-    Item.find({ 'create_date': {$lte: start_date} }).sort('-create_date').exec(function(err, itemList) {   
+
+
+    Item.find({ 'timestamp': {$lte: start_date} }).limit(numItems).exec(function(err, itemList) {   
 	  if (err){
 		console.error(err);
 		res.json({
@@ -184,32 +190,14 @@ router.post('/search', ensureAuthenticated, function(req, res, next){
 		});
 	  }
 	  else{
-		var numItems;
-		if(req.body.limit && req.body.limit<= 100){
-              numItems = req.body.limit;
-        console.log("LIMIT IS THERE");
-    }
-		else{
-        numItems = 25;
-        console.log("NAH");
-    }
-		
 		var return_items = {}
 		return_items.status = 'OK';
-		return_items.items = [];
-    var counter=0;
-		for(var i = 0; i < numItems && i < itemList.length; i++){
-		    
-		    var current_item = {};
-		    current_item.id = itemList[i]._id;
-		    current_item.username = itemList[i].user;
-		    current_item.content = itemList[i].body;
-		    current_item.timestamp = Math.round(itemList[i].create_date.getTime() / 1000);
-		    
-		    return_items.items.push(current_item);
-        counter++;
-		}
-    console.log(counter);
+		return_items.contents = itemList;
+
+    for(int i=0;i<return_items.contents; i++){
+      return_items.contents[i].id = return_items.contents[i]._id;
+    }
+    
 		res.send(return_items);
 	  }
 
@@ -227,14 +215,15 @@ router.get('/item/:id', ensureAuthenticated, function(req, res, next){
 	  }
 	  else{
 		if(item){
-		    var return_item = {};
-		    return_item.id = item._id;
-		    return_item.username = item.user;
-		    return_item.content = item.body;
-		    return_item.timestamp = Math.round(item.create_date.getTime() / 1000);
+		    // var return_item = {};
+		    // return_item.id = item._id;
+		    // return_item.username = item.username;
+		    // return_item.content = item.content;
+		    // return_item.timestamp = Math.round(item.timestamp.getTime() / 1000);
 
+        item.id = item._id;
 		    res.json({"status" : "OK", 
-                   "item": return_item});
+                   "item": item});
 		}
 		else{ 
 		    res.json({

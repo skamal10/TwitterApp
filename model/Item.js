@@ -4,16 +4,16 @@ autoIncrement.initialize(mongoose);
 
 var itemSchema = new mongoose.Schema({
     
-    user: {
+    username: {
 	  type: String,
 	  required: true,
 	  unique: false
     },
-    body: {
+    content: {
 	 type: String,
 	 required: true
     },
-    create_date: { 
+    timestamp: { 
 	 type: Date, 
 	 default: Date.now 
     }
