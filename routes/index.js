@@ -48,14 +48,14 @@ User.findOne( { $or:[{'username': req.body.username}, {'email': req.body.email }
               if (err){
                   res.json({
                    "status" : "error",
-                   "errMess" : "There was an error"
+                   "error" : "There was an error"
                  });
               }
 
               if (user) {
                   res.json({
                    "status" : "error",
-                   "errMess" : "User already exists"
+                   "error" : "User already exists"
                  });                
               }
 
@@ -89,25 +89,25 @@ router.post('/verify', function(req,res,next){
       if(err){
          res.json({
                    "status" : "error",
-                   "errMess" : "There was an error"
+                   "error" : "There was an error"
                  });
       }
       else if(!user){ // user not found
         res.json({
                    "status" : "error",
-                   "errMess" : "No user associated with that email"
+                   "error" : "No user associated with that email"
                  });
       }
       else if(user && user.verified){ // user is already verified
           res.json({
                    "status" : "error",
-                   "errMess" : "User is already validated"
+                   "error" : "User is already validated"
                  });
       }
       else if(!user.validateAccount(key)){ // invalid key
             res.json({
                    "status" : "error",
-                   "errMess" : "Incorrect validation key"
+                   "error" : "Incorrect validation key"
                  });
       }
       else{
@@ -139,7 +139,7 @@ router.post('/additem', ensureAuthenticated, function(req, res, next){
     if(req.body.content.length > 140){    
     res.json({
     "status" : "error",
-            "errMess" : "Tweet must be less thna 140 characters long"
+            "error" : "Tweet must be less thna 140 characters long"
     });
     }
     else{
@@ -155,7 +155,7 @@ router.post('/additem', ensureAuthenticated, function(req, res, next){
         console.error(err);
         res.json({
         "status" : "error",
-        "errMess" : "Something went wrong with the tweet"
+        "error" : "Something went wrong with the tweet"
         });
     }
     else{
@@ -189,7 +189,7 @@ router.post('/search', ensureAuthenticated, function(req, res, next){
 		console.error(err);
 		res.json({
 		    "status" : "error",
-		    "errMess" : "There was an error"
+		    "error" : "There was an error"
 		});
 	  }
 	  else{
@@ -227,7 +227,7 @@ router.get('/item/:id', ensureAuthenticated, function(req, res, next){
 	  if (err){
 		res.json({
 		    "status" : "error",
-		    "errMess" : "There was an error"
+		    "error" : "There was an error"
 		});
 	  }
 	  else{
@@ -244,7 +244,7 @@ router.get('/item/:id', ensureAuthenticated, function(req, res, next){
 		else{ 
 		    res.json({
 			  "status" : "error",
-			  "errMess" : "Item with that id doesn't exist"
+			  "error" : "Item with that id doesn't exist"
 		    });
 		}
 	  }
@@ -261,7 +261,7 @@ function ensureAuthenticated(req, res, next){
     }else{
         res.json({
             "status" : "error",
-            "errMess" : "Must be logged in to access this concent"
+            "error" : "Must be logged in to access this concent"
         });
     }
 }
