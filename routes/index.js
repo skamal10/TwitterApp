@@ -166,12 +166,15 @@ router.post('/search', ensureAuthenticated, function(req, res, next){
     if(req.body.timestamp){
        
           start_date = new Date(req.body.timestamp * 1000);
+          console.log(start_date);
     }
     else{
           start_date = new Date();
+          console.log("SECOND" + start_date);
     }
 
     var numItems;
+
     if(req.body.limit && req.body.limit<= 100){
               numItems = req.body.limit;
     }
@@ -181,7 +184,7 @@ router.post('/search', ensureAuthenticated, function(req, res, next){
 
 
 
-    Item.find({ 'timestamp': {$lte: start_date} }).limit(numItems).exec(function(err, itemList) {   
+    Item.find({ 'timestamp': {$lte: start_date} }).sort('-timestamp').limit(numItems).exec(function(err, itemList) {   
 	  if (err){
 		console.error(err);
 		res.json({
@@ -196,6 +199,7 @@ router.post('/search', ensureAuthenticated, function(req, res, next){
 
     console.log(numItems);
     console.log(itemList.length);
+
     for(var i=0; i<itemList.length; i++){
       
         var tempItem = {};
