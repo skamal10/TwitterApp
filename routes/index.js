@@ -175,7 +175,8 @@ router.post('/search', ensureAuthenticated, function(req, res, next){
      
     var start_date;
     if(req.body.timestamp){
-         start_date = new Date(req.body.timestamp);
+console.log("first");         
+start_date = new Date(req.body.timestamp * 1000);
     }
     else{
           start_date = new Date()
