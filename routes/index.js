@@ -201,7 +201,7 @@ router.post('/search', ensureAuthenticated, function(req, res, next){
         tempItem.id = itemList[i]._id;
         tempItem.content = itemList[i].content;
         tempItem.username = itemList[i].username;
-        tempItem.timestamp = itemList[i].timestamp;
+        tempItem.timestamp = Math.round(itemList[i].timestamp.getTime() / 1000);
 
         return_items.items.push(tempItem);
     }
