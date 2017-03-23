@@ -194,7 +194,7 @@ router.post('/search', ensureAuthenticated, function(req, res, next){
 		return_items.status = 'OK';
 		return_items.items = [];
 
-    console.log(JSON.stringify(itemList));
+    console.log(JSON.stringify(itemList[0]));
     for(var i=0; i<itemList.length; i++){
       
         var tempItem = {};
