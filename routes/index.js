@@ -179,11 +179,12 @@ router.post('/search', ensureAuthenticated, function(req, res, next){
          start_date = new Date(req.body.timestamp);
     }
     else{
-          start_date = new Date();
+          var temp = new Date().getTime();
+          start_date = new Date(temp);
     }
 
     console.log(start_date);
-    
+
     Item.find({ 'create_date': {$lte: start_date} }).sort('-create_date').exec(function(err, itemList) {   
 	  if (err){
 		console.error(err);
