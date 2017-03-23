@@ -196,6 +196,7 @@ router.post('/search', ensureAuthenticated, function(req, res, next){
 
     for(var i=0;i<return_items.items.length; i++){
       return_items.items[i].id = return_items.items[i]._id;
+          console.log(return_items.items[0].id);
     }
 		res.send(return_items);
 	  }
