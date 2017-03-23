@@ -135,15 +135,6 @@ router.post('/checkSession', function(req,res,next){
   
 router.post('/additem', ensureAuthenticated, function(req, res, next){
     
-    // First we check if the tweet doesnt exceed the limit
-    if(req.body.content.length > 140){    
-    res.json({
-    "status" : "error",
-            "error" : "Tweet must be less thna 140 characters long"
-    });
-    }
-    else{
-
     // This function is gonna allow the user to add a post. For for we'll just
     // just gonna add this to a database. The front end will add it to the view.
     var newItem = new Item();
@@ -168,7 +159,6 @@ router.post('/additem', ensureAuthenticated, function(req, res, next){
         });
     }
     });
-    }
 });
 
 router.post('/search', ensureAuthenticated, function(req, res, next){
