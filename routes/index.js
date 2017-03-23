@@ -192,11 +192,17 @@ router.post('/search', ensureAuthenticated, function(req, res, next){
 	  else{
 		var return_items = {}
 		return_items.status = 'OK';
-		return_items.items = itemList;
+		return_items.items = [];
 
-    for(var i=0;i<return_items.items.length; i++){
-      return_items.items[i].id = itemList._id;
-          console.log(return_items.items[0].id);
+    for(var i=0; i<itemList.length; i++){
+      
+        var tempItem = {};
+        tempItem.id = itemList[i]._id;
+        tempItem.content = itemList[i].content;
+        tempItem.username = itemList[i].username;
+        tempItem.timestamp = itemList[i].timestamp;
+
+        return_items.items.push(tempItem);
     }
 		res.send(return_items);
 	  }
@@ -222,6 +228,7 @@ router.get('/item/:id', ensureAuthenticated, function(req, res, next){
 		    // return_item.timestamp = Math.round(item.timestamp.getTime() / 1000);
 
         item.id = item._id;
+        console.log(item.id);
 		    res.json({"status" : "OK", 
                    "item": item});
 		}
