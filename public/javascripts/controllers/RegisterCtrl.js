@@ -7,8 +7,7 @@ angular.module('appApp', []).controller('RegisterCtrl', function ($scope, $http)
  	password: null,
  	email: null,
  };
-  });
-
+  
 $scope.submitRegistration = function(){
 
 	$http({
@@ -24,3 +23,5 @@ $scope.submitRegistration = function(){
           		alert(data.status);
           });
 };
+});
+
