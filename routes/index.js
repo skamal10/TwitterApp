@@ -10,7 +10,7 @@ router.get('/login', function(req, res, next) {
 	res.render('login');
 });
 
-router.get('/register',function(req, res, next){
+router.get('/adduser',function(req, res, next){
   res.render('register');
 });
 

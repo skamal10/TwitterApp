@@ -13,7 +13,7 @@ module('myApp', []).
         templateUrl:'views/login.ejs',
         controller: 'LoginCtrl'
       })
-      .when('/register', {
+      .when('/adduser', {
         templateUrl:'views/register.ejs',
         controller: 'RegisterCtrl'
       })
