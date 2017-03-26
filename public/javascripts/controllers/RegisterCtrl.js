@@ -1,3 +1,4 @@
+
 'use strict';
 
 angular.module('appApp', []).controller('RegisterCtrl', function ($scope, $http) {

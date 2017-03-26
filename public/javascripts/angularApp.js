@@ -21,6 +21,14 @@ module('myApp', []).
         templateUrl:'views/verify.ejs',
         controller: 'VerifyCtrl'
       })
+      .when('/additem', {
+        templateUrl:'views/add_tweet.ejs',
+        controller: 'AddItemCtrl'
+      })
+      .when('/search', {
+        templateUrl:'views/search.ejs',
+        controller: 'SearchCtrl'
+      })
       .otherwise({
         redirectTo: '/'
       });

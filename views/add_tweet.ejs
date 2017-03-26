@@ -1,0 +1,43 @@
+
+<html>
+  <head>
+    <meta charset="utf-8">
+      <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
+      <script src="https://code.angularjs.org/1.5.5/angular-cookies.min.js"></script>
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<!-- jQuery library -->
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+      <script src="../javascripts/angularApp.js"></script>
+      <script src="../javascripts/controllers/AddItemCtrl.js"></script>
+      <link rel="stylesheet" type="text/css" href="../stylesheets/stylesheet.css"> 
+    <title>PostTweet</title>
+  </head>
+  <body ng-app="appApp">
+
+
+
+
+  <div ng-controller = 'AddItemCtrl'  class="container">
+
+    <div class="wrapper">
+      <form class="form-signin">       
+        <h2 class="form-signin-heading">Create Tweet</h2>
+	  <textarea type="text" class="form-control" name="content" placeholder="What's on your mind?" rows="3" ng-model = credentials.content></textarea> 
+      <button class="btn btn-lg btn-primary btn-block" type="button" ng-click='submitPost()'>Post</button> 
+    </form>
+    {{tweet_info}}
+  </div>
+      
+
+
+  </div>
+
+
+
+
+
+
+
+</body>
+</html>

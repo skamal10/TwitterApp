@@ -1,3 +1,4 @@
+
 var express = require('express');
 var router = express.Router();
 var passport = require('passport');
@@ -27,9 +28,13 @@ router.get('/adduser',function(req, res, next){
   res.render('register');
 });
 
-// router.post('/login',passport.authenticate('local'), function(req, res) {
-//     res.json({ "status" : "OK"});
-//   });
+router.get('/additem',function(req, res, next){
+  res.render('add_tweet');
+});
+
+router.get('/search',function(req, res, next){
+  res.render('search');
+});
 
 router.post('/login', function(req, res, next) {
   passport.authenticate('local', function(err, user, info) {
