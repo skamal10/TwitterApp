@@ -2,7 +2,7 @@
 
 angular.module('appApp', []).controller('RegisterCtrl', function ($scope, $http) {
    
- $scope.credentials= {
+ $scope.credentials = {
  	username: null,
  	password: null,
  	email: null,
@@ -15,7 +15,7 @@ $scope.submitRegistration = function(){
           url     : '/adduser',
           data    : { 	
 				username : $scope.credentials.username,
-          			password : $scope.credentials.password,
+        password : $scope.credentials.password,
 				email: $scope.credentials.email
           		  }
          })

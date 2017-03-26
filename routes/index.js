@@ -4,6 +4,15 @@ var passport = require('passport');
 var mongoose = require('mongoose');
 var User = mongoose.model('User');
 var Item = mongoose.model('Item');
+var nodemailer = require('nodemailer');
+
+ var transporter = nodemailer.createTransport({
+        service: 'Gmail',
+        auth: {
+            user: 'nyklyfe@gmail.com', // Your email id
+            pass: '269177093' // Your password
+        }
+    });
 
 
 router.get('/login', function(req, res, next) {
@@ -66,6 +75,8 @@ User.findOne( { $or:[{'username': req.body.username}, {'email': req.body.email }
                   user.setPassword(req.body.password);
                   user.createValidateKey();
 
+                  sendEmail(user.email, user.verify_key);
+
                   user.save(function(err){
                   res.status(200);
                   res.json({
@@ -79,6 +90,26 @@ User.findOne( { $or:[{'username': req.body.username}, {'email': req.body.email }
 
 });
 
+
+var sendEmail = function( email, verify_key){
+      
+  var text = 'Thank you for registering for Twitter. \n \n Your verification key is as follows: ' + verify_key;
+  var mailOptions = {
+    from: 'nyklyfe@gmail.com>', // sender address
+    to: email, // list of receivers
+    subject: 'Twitter Verification', // Subject line
+    text: text 
+};
+
+transporter.sendMail(mailOptions, function(error, info){
+    if(error){
+        console.log(error);
+    }else{
+        console.log('Message sent: ' + info.response);
+    };
+});
+
+}
 
 
 router.post('/verify', function(req,res,next){
