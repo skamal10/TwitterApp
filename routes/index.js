@@ -9,14 +9,18 @@ var nodemailer = require('nodemailer');
  var transporter = nodemailer.createTransport({
         service: 'Gmail',
         auth: {
-            user: 'nyklyfe@gmail.com', // Your email id
-            pass: '269177093' // Your password
+            user: 'cse356twitterservice@gmail.com', // Your email id
+            pass: 'cse356twitter' // Your password
         }
     });
 
 
 router.get('/login', function(req, res, next) {
 	res.render('login');
+});
+
+router.get('/verify', function(req,res, next) {
+  res.render('verify');
 });
 
 router.get('/adduser',function(req, res, next){
@@ -95,7 +99,7 @@ var sendEmail = function( email, verify_key){
       
   var text = 'Thank you for registering for Twitter. \n \n Your verification key is as follows: ' + verify_key;
   var mailOptions = {
-    from: 'nyklyfe@gmail.com>', // sender address
+    from: 'nyklyfe@gmail.com', // sender address
     to: email, // list of receivers
     subject: 'Twitter Verification', // Subject line
     text: text 

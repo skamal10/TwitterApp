@@ -17,6 +17,10 @@ module('myApp', []).
         templateUrl:'views/register.ejs',
         controller: 'RegisterCtrl'
       })
+      .when('/verify' {
+        templateUrl:'views/verify.ejs',
+        controller: 'VerifyCtrl'
+      })
       .otherwise({
         redirectTo: '/'
       });

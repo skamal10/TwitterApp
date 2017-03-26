@@ -9,29 +9,25 @@
 <!-- jQuery library -->
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
       <script src="../javascripts/angularApp.js"></script>
-      <script src="../javascripts/controllers/LoginCtrl.js"></script>
+      <script src="../javascripts/controllers/VerifyCtrl.js"></script>
       <link rel="stylesheet" type="text/css" href="../stylesheets/stylesheet.css"> 
-    <title>Login</title>
+    <title>Verify</title>
   </head>
   <body ng-app="appApp">
 
 
 
 
-  <div ng-controller = 'LoginCtrl'  class="container">
+  <div ng-controller = 'VerifyCtrl'  class="container">
 
     <div class="wrapper">
       <form class="form-signin">       
-        <h2 class="form-signin-heading">Please login</h2>
-        <input type="text" class="form-control" name="username" placeholder="Enter Username" ng-model = credentials.username />
-        <input type="password" class="form-control" name="password" placeholder="Password" ng-model = credentials.password />      
-      <button class="btn btn-lg btn-primary btn-block" type="button" ng-click='submitLogin()'>Login</button>   
+        <h2 class="form-signin-heading">User Verification</h2>
+        <input type="text" class="form-control" name="email" placeholder="Enter Email" ng-model = credentials.email />
+        <input type="text" class="form-control" name="key" placeholder="Verification Key" ng-model = credentials.verification_key />      
+      <button class="btn btn-lg btn-primary btn-block" type="button" ng-click='verify()'>Login</button>   
     </form>
   </div>
-      
-<button ng-click= 'viewLoggedInUser()'>CHECK </button>
-
-
   </div>
 
 
