@@ -8,6 +8,8 @@ var bodyParser = require('body-parser');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var db = require('./model/db');
+var mongoose = require('mongoose');
+var MongoStore = require('connect-mongo')(session);
 var userObj = require('./model/User');
 var itemObj = require('./model/Item');
 var followsObj = require('./model/Follows');
@@ -33,11 +35,20 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
+// app.use(session({
+//     secret: 'secretCrap',
+//     saveUninitialized: true,
+//     resave: true
+// }));
+
 app.use(session({
-    secret: 'secretCrap',
-    saveUninitialized: true,
-    resave: true
+     secret: 'secret',
+     store: new MongoStore( {mongooseConnection: mongoose.connection}),
+     resave: false,
+     saveUninitialized: true
 }));
+
+
 app.use(passport.initialize());
 app.use(passport.session());
 app.use('/', index);
