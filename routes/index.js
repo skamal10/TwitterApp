@@ -30,7 +30,7 @@ router.get('/search',function(req, res, next){
 router.post('/additem', ensureAuthenticated, addItem);
 router.post('/search', ensureAuthenticated, searchItem);
 router.get('/item/:id', ensureAuthenticated, getItem);
-
+router.delete('/item/:id', ensureAuthenticated, deleteItem);
 
 // ---------------USER LOGIC --> UserService.js
 
@@ -38,6 +38,9 @@ router.post('/login', login);
 router.post('/logout', ensureAuthenticated, logout);
 router.post('/addUser', addUser);
 router.post('/verify', verifyUser);
+router.get('/user/:username', searchByUserName);
+router.post('/follow', followUser);
+
 
 
 

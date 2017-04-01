@@ -55,6 +55,31 @@ module.exports = function(){
     });
   };
 
+  this.deleteItem = function(req, res, next){
+  	var tweet_id = req.params.id;
+  	var currentUser = req.user.username;
+
+    Item.findOneAndRemove({ $and:[{'_id': tweet_id }, {'username': currentUser} ]}, function(err, item){
+    	if (err){
+    	    res.json({
+    	     "status" : "error",
+    	     "error" : "There was an error"
+    	   });
+    	} 
+    	else if(!item){
+    	    res.json({
+    	     "status" : "error",
+    	     "error" : "This tweet either does not exist or you are not authorized to delete this tweet."
+    	   });
+    	}
+    	else{
+    	   res.json({
+    	     "status" : "OK"
+    	   });
+    	}
+
+    });
+  };
   this.searchItem = function(req, res, next){
   	var start_date;
     if(req.body.timestamp){
@@ -102,7 +127,7 @@ module.exports = function(){
 	  }
 
     });
-  }
+  };
 
 
 

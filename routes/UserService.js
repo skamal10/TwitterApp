@@ -1,6 +1,7 @@
 var passport = require('passport');
 var mongoose = require('mongoose');
 var User = mongoose.model('User');
+var Follows = mongoose.model('Follows');
 var nodemailer = require('nodemailer');
  var transporter = nodemailer.createTransport({
         service: 'Gmail',
@@ -133,7 +134,78 @@ module.exports = function(){
 				    }
 				});
 
-		};	
+		};
+
+		this.searchByUserName = function(req, res, next){
+			var username = req.params.username;
+			 User.findOne({'username' : username},'username email -_id', function(err, user){
+			 	if(err){
+			         res.json({
+			                   "status" : "error",
+			                   "error" : "There was an error"
+			                 });
+			      }
+			      else if(!user){ // user not found
+			        res.json({
+			                   "status" : "error",
+			                   "error" : "No user associated with that email"
+			                 });
+			      }
+			      else{
+			      	res.json({user});
+			      }
+
+
+			 });
+
+		};
+
+		this.followUser = function(req , res, next){
+			var currentUser = req.user.username;
+			var followUser = req.body.username;
+
+			// prevent user from following himself
+			if(currentUser === followUser){ 
+				res.json({
+			            "status" : "error",
+			            "error" : "Can't follow yourself!"
+			             });
+				return;
+			}
+
+			// first check if the user the current user is trying to follow exists
+			User.findOne({'username' : followUser}, function(err,user){
+				if(!user){
+					res.json({
+			                   "status" : "error",
+			                   "error" : "No such user"
+			                 });
+				}
+				else{
+					var following = new Follows();
+					following.username = currentUser;
+					following.follows = followUser;
+			        following.save(function(err){
+			        	if(err){ // use indexing to make sure unique pairs
+			        		res.json({
+			                   "status" : "error",
+			                   "error" : "You already follow "+ followUser +"!"
+			                 });
+			        	}
+			        	else{
+			            res.json({
+			                  "status": "OK"
+			            });
+			        	}
+			          });
+				}
+
+		});
+
+	}
+
+
+
 
 };
 
