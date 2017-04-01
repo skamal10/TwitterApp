@@ -99,6 +99,8 @@ module.exports = function(){
         numItems = 25;
     }
 
+    console.log(start_date);
+    console.log(numItems);
 
     Item.find({ 'timestamp': {$lte: start_date} }).sort('-timestamp').limit(numItems).exec(function(err, itemList) {   
 	  if (err){
