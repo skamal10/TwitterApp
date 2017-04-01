@@ -65,7 +65,7 @@ module.exports = function(){
                   user.setPassword(req.body.password);
                   user.createValidateKey();
 
-                  sendEmail(user.email, user.verify_key); // send verification email
+                  //sendEmail(user.email, user.verify_key); // send verification email
 
                   user.save(function(err){ // save in the db and send the response message
                   res.status(200);
