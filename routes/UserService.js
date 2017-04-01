@@ -11,6 +11,10 @@ var nodemailer = require('nodemailer');
         }
     });
 
+ var MAX_FOLLOWERS_DISPLAY = 200;
+ var FOLLOWERS_DISPLAY_DEFAULT = 50;
+
+
 
 module.exports = function(){
 
@@ -206,8 +210,9 @@ module.exports = function(){
 
 	this.getFollowing = function(req, res, next){
 		var username = req.params.username;
-
-		Follows.find({'username': username},'follows -_id', function(err, users){
+		var limit = req.body.limit == null || req.body.limit > MAX_FOLLOWERS_DISPLAY || req.body.limit < 0 ? FOLLOWERS_DISPLAY_DEFAULT : req.body.limit; 
+		console.log(req.params.limit);
+		Follows.find({'username': username}).select('follows -_id').limit(limit).exec(function(err, users){
 			if(users==null || users.length <= 0 ){
 					res.json({
 			            "status" : "error",
@@ -225,8 +230,9 @@ module.exports = function(){
 
 	this.getFollowers = function(req, res, next){
 		var username = req.params.username;
+		var limit = req.body.limit == null || req.body.limit > MAX_FOLLOWERS_DISPLAY || req.body.limit < 0 ? FOLLOWERS_DISPLAY_DEFAULT : req.body.limit; 
 
-		Follows.find({'follows': username},'username -_id', function(err, users){
+		Follows.find({'follows': username}).select('username -_id').limit(limit).exec(function(err, users){
 			if(users==null || users.length <= 0 ){
 					res.json({
 			            "status" : "error",
