@@ -40,6 +40,8 @@ router.post('/addUser', addUser);
 router.post('/verify', verifyUser);
 router.get('/user/:username', searchByUserName);
 router.post('/follow', followUser);
+router.get('/user/:username/following', getFollowing);
+router.get('/user/:username/followers', getFollowers);
 
 
 

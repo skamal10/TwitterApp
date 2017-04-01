@@ -202,7 +202,46 @@ module.exports = function(){
 
 		});
 
-	}
+	};
+
+	this.getFollowing = function(req, res, next){
+		var username = req.params.username;
+
+		Follows.find({'username': username},'follows -_id', function(err, users){
+			if(users==null || users.length <= 0 ){
+					res.json({
+			            "status" : "error",
+			             "error" : "This user doesn't follow anybody!"
+			        });	
+			}
+			else{
+				res.json({
+						"status" : "OK",
+						"usernames": users
+				});
+			}
+		});
+	};
+
+	this.getFollowers = function(req, res, next){
+		var username = req.params.username;
+
+		Follows.find({'follows': username},'username -_id', function(err, users){
+			if(users==null || users.length <= 0 ){
+					res.json({
+			            "status" : "error",
+			             "error" : "This user doesn't follow anybody!"
+			        });	
+			}
+			else{
+				res.json({
+						"status" : "OK",
+						"usernames": users
+				});
+			}
+		});
+	};
+
 
 
 
