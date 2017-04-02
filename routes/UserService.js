@@ -41,43 +41,68 @@ module.exports = function(){
   			});
 		};
 
+		// this.addUser = function(req, res, next){
+		// 	// Find a user with the same username or email. 
+		// 	User.findOne( { $or:[{'username': req.body.username}, {'email': req.body.email } ]}, function(err, user) { 
+  //             if (err){
+  //                 res.json({
+  //                  "status" : "error",
+  //                  "error" : "There was an error"
+  //                });
+  //             }
+
+  //             if (user) { // If a user already exists, throw an error
+  //                 res.json({
+  //                  "status" : "error",
+  //                  "error" : "User already exists"
+  //                });                
+  //             }
+
+  //             else{ // else create a new user 
+  //                 var user = new User();
+  //                 user.username = req.body.username;
+  //                 user.email    = req.body.email;
+  //                 user.setPassword(req.body.password);
+  //                 user.createValidateKey();
+
+  //                 //sendEmail(user.email, user.verify_key); // send verification email
+
+  //                 user.save(function(err){ // save in the db and send the response message
+  //                 res.status(200);
+  //                 res.json({
+  //                             "status": "OK",
+  //                             "key"   : user.verify_key
+  //                        });
+  //                 });
+  //             } 
+
+  //   		});
+		// };
 		this.addUser = function(req, res, next){
 			// Find a user with the same username or email. 
-			User.findOne( { $or:[{'username': req.body.username}, {'email': req.body.email } ]}, function(err, user) { 
-              if (err){
-                  res.json({
-                   "status" : "error",
-                   "error" : "There was an error"
-                 });
-              }
-
-              if (user) { // If a user already exists, throw an error
-                  res.json({
-                   "status" : "error",
-                   "error" : "User already exists"
-                 });                
-              }
-
-              else{ // else create a new user 
                   var user = new User();
                   user.username = req.body.username;
                   user.email    = req.body.email;
                   user.setPassword(req.body.password);
                   user.createValidateKey();
-
                   //sendEmail(user.email, user.verify_key); // send verification email
 
                   user.save(function(err){ // save in the db and send the response message
-                  res.status(200);
-                  res.json({
+                  	if(err){
+                  		res.json({
+			                   "status" : "error",
+			                   "error" : "Username or email already exists"
+			                 });
+                  	}
+                  else{
+                  		res.json({
                               "status": "OK",
                               "key"   : user.verify_key
                          });
+                  }
                   });
-              } 
-
-    		});
 		};
+
 
 
 		this.verifyUser = function(req, res, next){

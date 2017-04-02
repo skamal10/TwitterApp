@@ -16,4 +16,5 @@ var followingSchema = new mongoose.Schema({
 });
 
 followingSchema.index({username: 1, follows: 1}, {unique: true});
+followingSchema.index({follows : 1});
 mongoose.model('Follows', followingSchema);
