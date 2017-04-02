@@ -98,8 +98,8 @@ module.exports = function(){
     else{
         numItems = 25;
     }
-    Item.find({ 'timestamp': {$lte: start_date} }).sort('-timestamp').limit(numItems).exec(function(err, itemList) { 
-    //Item.find({ 'timestamp': {$lte: start_date} }).limit(numItems).exec(function(err, itemList) {     
+    //Item.find({ 'timestamp': {$lte: start_date} }).sort('-timestamp').limit(numItems).exec(function(err, itemList) { 
+    Item.find({ 'timestamp': {$lte: start_date} }).limit(numItems).sort('-timestamp').exec(function(err, itemList) {     
 	  if (err){
 		console.error(err);
 		res.json({
