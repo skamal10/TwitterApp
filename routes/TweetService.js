@@ -108,7 +108,7 @@ module.exports = function(){
 	  { 'timestamp': {$lte: start_date} },
 	  req.body.q ? {$text: {$search: req.body.q}} : {},
 	  { username: { $in: req.user.following } }]}
-    ).limit(numItems).sort('-timestamp').exec(function(err, itemList) {     
+    ).limit(numItems).exec(function(err, itemList) {     
 	  if (err){
 		console.error(err);
 		res.json({

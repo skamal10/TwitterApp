@@ -20,6 +20,6 @@ var itemSchema = new mongoose.Schema({
 });
 
 itemSchema.index( {content: "text"} );
-itemSchema.index( {timestamp: 1});
+itemSchema.index( {timestamp: -1});
 itemSchema.plugin(autoIncrement.plugin, 'Item');
 mongoose.model('Item', itemSchema);
