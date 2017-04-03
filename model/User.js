@@ -20,6 +20,7 @@ var userSchema = new mongoose.Schema({
   	type: Date, 
   	default: Date.now 
   },
+  following: [String],
   hash: String,
   salt: String,
   verify_key: String

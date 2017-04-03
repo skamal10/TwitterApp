@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var Item = mongoose.model('Item');
+var Follows = mongoose.model('Follows');
 
 module.exports = function(){
 
@@ -98,8 +99,16 @@ module.exports = function(){
     else{
         numItems = 25;
     }
+    
+    var following_names;
+
     //Item.find({ 'timestamp': {$lte: start_date} }).sort('-timestamp').limit(numItems).exec(function(err, itemList) { 
-    Item.find({ 'timestamp': {$lte: start_date} }).limit(numItems).sort('-timestamp').exec(function(err, itemList) {     
+    Item.find({ $and: 
+	  [req.body.username ? {'username': req.body.username} : {}, 
+	  { 'timestamp': {$lte: start_date} },
+	  req.body.q ? {$text: {$search: req.body.q}} : {},
+	  { username: { $in: req.user.following } }]}
+    ).limit(numItems).sort('-timestamp').exec(function(err, itemList) {     
 	  if (err){
 		console.error(err);
 		res.json({

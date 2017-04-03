@@ -222,9 +222,13 @@ module.exports = function(){
 			                 });
 			        	}
 			        	else{
-			            res.json({
-			                  "status": "OK"
-			            });
+					  
+					  req.user.following.push(req.body.username);
+					    req.user.save();
+					    console.log(req.user.following);
+					    res.json({
+						    "status": "OK"
+					  });
 			        	}
 			          });
 				}
