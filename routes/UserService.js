@@ -192,7 +192,7 @@ module.exports = function(){
 		this.followUser = function(req , res, next){
 			var currentUser = req.user.username;
 			var followUser = req.body.username;
-
+		      var follow_user = req.body.follow == null || req.body.follow == true; 
 			// prevent user from following himself
 			if(currentUser === followUser){ 
 				res.json({
@@ -211,26 +211,54 @@ module.exports = function(){
 			                 });
 				}
 				else{
-					var following = new Follows();
-					following.username = currentUser;
-					following.follows = followUser;
-			        following.save(function(err){
-			        	if(err){ // use indexing to make sure unique pairs
-			        		res.json({
-			                   "status" : "error",
-			                   "error" : "You already follow "+ followUser +"!"
-			                 });
-			        	}
-			        	else{
-					  
-					  req.user.following.push(req.body.username);
-					    req.user.save();
-					    console.log(req.user.following);
-					    res.json({
-						    "status": "OK"
+				    if(follow_user){
+					  var following = new Follows();
+					  following.username = currentUser;
+					  following.follows = followUser;
+					  following.save(function(err){
+						if(err){ // use indexing to make sure unique pairs
+						    res.json({
+						     "status" : "error",
+						     "error" : "You already follow "+ followUser +"!"
+						});
+					    }
+					    else{
+						
+						req.user.following.push(req.body.username);
+						req.user.save();
+						console.log(req.user.following);
+						res.json({
+							  "status": "OK"
+						});
+					    }
 					  });
-			        	}
-			          });
+				    }
+				    else{
+		// This is when the user wants to unfollow a user
+					  
+					  Follows.findOneAndRemove({"username": req.user.username, "follows": req.body.username},function(err, user){
+
+						if(err || !user){
+						    console.error(err);
+						    
+						    res.json({
+						     "status" : "error",
+						     "error" : "You don't follow "+ followUser +"!"
+						    });
+						
+						}
+						else{
+						    req.user.following.splice(
+							  req.user.following.indexOf(req.body.username) ,1
+						    ); 
+						    req.user.save();
+						    res.json({
+							  "status" : "OK"
+						    });
+						}
+						
+					  });
+				    }
 				}
 
 		});
