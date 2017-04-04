@@ -145,7 +145,6 @@ module.exports = function(){
                 var return_items = {}
                 return_items.status = 'OK';
                 return_items.items = itemList;
-                console.log(itemList[0]);
                 res.send(return_items);
             }
 

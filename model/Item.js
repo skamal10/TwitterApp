@@ -16,9 +16,12 @@ var itemSchema = new mongoose.Schema({
     timestamp: { 
 	 type: Date, 
 	 default: Date.now 
-    }
+    },
 });
 itemSchema.virtual('id').get(function() { return this._id; });
+itemSchema.set('toJSON', {
+    virtuals: true
+});
 itemSchema.index( {content: "text"} );
 itemSchema.index( {timestamp: -1});
 itemSchema.plugin(autoIncrement.plugin, 'Item');
