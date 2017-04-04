@@ -100,9 +100,10 @@ module.exports = function(){
         numItems = 25;
     }
 
+
     var findByFollowing = req.body.following == null || req.body.following == true ? true : false;
 
-    if(findByFollowing){
+    if(!findByFollowing){
       var username = req.user.username;
           Follows.find({'username': username}).distinct('follows').exec(function(err, following){
             Item.find({ $and: 
