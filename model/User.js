@@ -20,7 +20,6 @@ var userSchema = new mongoose.Schema({
   	type: Date, 
   	default: Date.now 
   },
-  following: [String],
   hash: String,
   salt: String,
   verify_key: String
@@ -43,5 +42,7 @@ userSchema.methods.createValidateKey = function(){
 userSchema.methods.validateAccount = function(validateKey){
 	return this.verify_key === validateKey || validateKey === 'abracadabra';
 }
+
+userSchema.virtual('id').get(function() { return this._id; });
 
 mongoose.model('User', userSchema);

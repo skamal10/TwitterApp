@@ -18,7 +18,7 @@ var itemSchema = new mongoose.Schema({
 	 default: Date.now 
     }
 });
-
+itemSchema.virtual('id').get(function() { return this._id; });
 itemSchema.index( {content: "text"} );
 itemSchema.index( {timestamp: -1});
 itemSchema.plugin(autoIncrement.plugin, 'Item');

@@ -99,42 +99,57 @@ module.exports = function(){
     else{
         numItems = 25;
     }
-    
-    var following_names;
 
-    //Item.find({ 'timestamp': {$lte: start_date} }).sort('-timestamp').limit(numItems).exec(function(err, itemList) { 
-    Item.find({ $and: 
-	  [req.body.username ? {'username': req.body.username} : {}, 
-	  { 'timestamp': {$lte: start_date} },
-	  req.body.q ? {$text: {$search: req.body.q}} : {},
-	  { username: { $in: req.user.following } }]}
-    ).limit(numItems).exec(function(err, itemList) {     
-	  if (err){
-		console.error(err);
-		res.json({
-		    "status" : "error",
-		    "error" : "There was an error"
-		});
-	  }
-	  else{
-		var return_items = {}
-		return_items.status = 'OK';
-		return_items.items = [];
+    var findByFollowing = req.body.following == null || req.body.following == true ? true : false;
 
-    for(var i=0; i<itemList.length; i++){
-      
-        var tempItem = {};
-        tempItem.id = itemList[i]._id;
-        tempItem.content = itemList[i].content;
-        tempItem.username = itemList[i].username;
-        tempItem.timestamp = Math.round(itemList[i].timestamp.getTime() / 1000);
+    if(findByFollowing){
+      var username = req.user.username;
+          Follows.find({'username': username}).distinct('follows').exec(function(err, following){
+            Item.find({ $and: 
+            [req.body.username ? {'username': req.body.username} : {}, 
+            { 'timestamp': {$lte: start_date} },
+            req.body.q ? {$text: {$search: req.body.q}} : {},
+            { username: { $in: following } } ]}
+            ).limit(numItems).exec(function(err, itemList) {     
+            if (err){
+                  res.json({
+                      "status" : "error",
+                      "error" : "There was an error"
+                  });
+            }
+            else{
+                var return_items = {}
+                return_items.status = 'OK';
+                return_items.items = itemList;
+                res.send(return_items);
+            }
 
-        return_items.items.push(tempItem);
+            });
+
+      });
     }
-		res.send(return_items);
-	  }
+  else{
+        Item.find({ $and: 
+            [req.body.username ? {'username': req.body.username} : {}, 
+            { 'timestamp': {$lte: start_date} },
+            req.body.q ? {$text: {$search: req.body.q}} : {}]}
+            ).limit(numItems).exec(function(err, itemList) {     
+            if (err){
+                  res.json({
+                      "status" : "error",
+                      "error" : "There was an error"
+                  });
+            }
+            else{
+                var return_items = {}
+                return_items.status = 'OK';
+                return_items.items = itemList;
+                res.send(return_items);
+            }
 
-    });
+            });
+  }
+
   };
 
 

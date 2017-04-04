@@ -39,7 +39,7 @@ router.post('/logout', ensureAuthenticated, logout);
 router.post('/addUser', addUser);
 router.post('/verify', verifyUser);
 router.get('/user/:username', searchByUserName);
-router.post('/follow', followUser);
+router.post('/follow', followUser,unfollowUser);
 router.get('/user/:username/following', getFollowing);
 router.get('/user/:username/followers', getFollowers);
 

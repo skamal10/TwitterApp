@@ -192,7 +192,7 @@ module.exports = function(){
 		this.followUser = function(req , res, next){
 			var currentUser = req.user.username;
 			var followUser = req.body.username;
-		      var follow_user = req.body.follow == null || req.body.follow == true; 
+		      var isFollow = req.body.follow == null || req.body.follow == true; 
 			// prevent user from following himself
 			if(currentUser === followUser){ 
 				res.json({
@@ -201,69 +201,60 @@ module.exports = function(){
 			             });
 				return;
 			}
+			else if(!isFollow){ // if this boolean value is false, go to unfollow function
+				return next();
+			}
 
-			// first check if the user the current user is trying to follow exists
-			User.findOne({'username' : followUser}, function(err,user){
-				if(!user){
-					res.json({
-			                   "status" : "error",
-			                   "error" : "No such user"
-			                 });
-				}
-				else{
-				    if(follow_user){
-					  var following = new Follows();
-					  following.username = currentUser;
-					  following.follows = followUser;
-					  following.save(function(err){
-						if(err){ // use indexing to make sure unique pairs
-						    res.json({
-						     "status" : "error",
-						     "error" : "You already follow "+ followUser +"!"
-						});
-					    }
-					    else{
-						
-						req.user.following.push(req.body.username);
-						req.user.save();
-						console.log(req.user.following);
+			else{
+				User.findOne({'username' : followUser}, function(err,user){
+					if(!user || err){
 						res.json({
-							  "status": "OK"
-						});
-					    }
-					  });
-				    }
-				    else{
-		// This is when the user wants to unfollow a user
-					  
-					  Follows.findOneAndRemove({"username": req.user.username, "follows": req.body.username},function(err, user){
+				                   "status" : "error",
+				                   "error" : "No such user"
+				                 });
+					}
+					else{
+						  var following = new Follows();
+						  following.username = currentUser;
+						  following.follows = followUser;
+						  following.save(function(err){
+							if(err){ // use indexing to make sure unique pairs
+							    res.json({
+							     "status" : "error",
+							     "error" : "You already follow "+ followUser +"!"
+								});
+						    }
+						    else{
+								res.json({
+									  "status": "OK"
+								});
+						    }
+						 });
+					}
+				});
+			}
+		};
 
-						if(err || !user){
-						    console.error(err);
-						    
+		this.unfollowUser = function(req, res, next){
+			var currentUser = req.user.username;
+			var unfollowUser = req.body.username;
+
+			Follows.findOneAndRemove({"username": currentUser, "follows": unfollowUser},function(err, user){
+					if(err || !user){
 						    res.json({
 						     "status" : "error",
-						     "error" : "You don't follow "+ followUser +"!"
+						     "error" : "You don't follow "+ unfollowUser +"!"
 						    });
 						
 						}
-						else{
-						    req.user.following.splice(
-							  req.user.following.indexOf(req.body.username) ,1
-						    ); 
-						    req.user.save();
+						else{ // SUCCESSFULLY REMOVED!
 						    res.json({
 							  "status" : "OK"
 						    });
 						}
 						
 					  });
-				    }
-				}
-
-		});
-
-	};
+		}
 
 	this.getFollowing = function(req, res, next){
 		var username = req.params.username;
