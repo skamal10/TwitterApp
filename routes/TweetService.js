@@ -133,7 +133,7 @@ module.exports = function(){
             [req.body.username ? {'username': req.body.username} : {}, 
             { 'timestamp': {$lte: start_date} },
             req.body.q ? {$text: {$search: req.body.q}} : {}]}
-            ).limit(numItems).sort({timestamp:-1}).exec(function(err, itemList) {     
+            ).limit(numItems).sort({timestamp: 1}).exec(function(err, itemList) {     
             if (err){
                   res.json({
                       "status" : "error",
