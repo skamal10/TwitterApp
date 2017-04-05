@@ -181,7 +181,8 @@ module.exports = function(){
 			                 });
 			      }
 			      else{
-			      	res.json({user});
+			      	res.json({"status": "OK",
+			      			  "user" : user});
 			      }
 
 
