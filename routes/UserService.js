@@ -144,7 +144,7 @@ module.exports = function(){
 			    				var currentUser = {};
 			    				currentUser.email = user.email;
 			    				currentUser.following =  followsCount;
-			    				curentUser.followers = followersCount;
+			    				currentUser.followers = followersCount;
 			    				res.json({
 			    					"status": "OK",
 			    					"user"  : currentUser
