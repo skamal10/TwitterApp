@@ -137,7 +137,7 @@ module.exports = function(){
 			                   "error" : "There was an error"
 			                 });
 			      }
-			      else if(!user){ // user not found
+			      else if(!users || users.length <= 0 ){ // user not found
 			        res.json({
 			                   "status" : "error",
 			                   "error" : "No user associated with that email"
@@ -145,7 +145,7 @@ module.exports = function(){
 			      }
 			      else{
 			      	Follows.find({'follows' : username}, function(err,user1){
-			      		if(err){
+			      		if(err || !user1){
 					         res.json({
 					                   "status" : "error",
 					                   "error" : "There was an error"
