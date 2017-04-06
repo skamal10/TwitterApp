@@ -141,11 +141,13 @@ module.exports = function(){
 			    	Follows.count({'username' : username},function(err, followsCount){
 
 			    		Follows.count({'follows': username},function(err, followersCount){
-			    				user.following = !followsCount ? 0 : followsCount;
-			    				user.followers = !followersCount ? 0 : followersCount;
+			    				var currentUser = {};
+			    				currentUser.email = user.email;
+			    				currentUser.following =  followsCount;
+			    				curentUser.followers = followersCount;
 			    				res.json({
 			    					"status": "OK",
-			    					"user"  : user
+			    					"user"  : currentUser;
 			    				});
 			    		});
 			    	});
