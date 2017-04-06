@@ -40,44 +40,7 @@ module.exports = function(){
     			res.json({ status: "OK" }); 
   			});
 		};
-
-		// this.addUser = function(req, res, next){
-		// 	// Find a user with the same username or email. 
-		// 	User.findOne( { $or:[{'username': req.body.username}, {'email': req.body.email } ]}, function(err, user) { 
-  //             if (err){
-  //                 res.json({
-  //                  "status" : "error",
-  //                  "error" : "There was an error"
-  //                });
-  //             }
-
-  //             if (user) { // If a user already exists, throw an error
-  //                 res.json({
-  //                  "status" : "error",
-  //                  "error" : "User already exists"
-  //                });                
-  //             }
-
-  //             else{ // else create a new user 
-  //                 var user = new User();
-  //                 user.username = req.body.username;
-  //                 user.email    = req.body.email;
-  //                 user.setPassword(req.body.password);
-  //                 user.createValidateKey();
-
-  //                 //sendEmail(user.email, user.verify_key); // send verification email
-
-  //                 user.save(function(err){ // save in the db and send the response message
-  //                 res.status(200);
-  //                 res.json({
-  //                             "status": "OK",
-  //                             "key"   : user.verify_key
-  //                        });
-  //                 });
-  //             } 
-
-  //   		});
-		// };
+		
 		this.addUser = function(req, res, next){
 			// Find a user with the same username or email. 
                   var user = new User();
@@ -167,7 +130,7 @@ module.exports = function(){
 
 		this.searchByUserName = function(req, res, next){
 			var username = req.params.username;
-			 User.findOne({'username' : username},'username email -_id', function(err, user){
+			 Follows.find({'username' : username},'email -_id', function(err, users){
 			 	if(err){
 			         res.json({
 			                   "status" : "error",
@@ -181,11 +144,23 @@ module.exports = function(){
 			                 });
 			      }
 			      else{
-			      	res.json({"status": "OK",
-			      			  "user" : user});
-			      }
-
-
+			      	Follows.find({'follows' : username}, function(err,user1){
+			      		if(err){
+					         res.json({
+					                   "status" : "error",
+					                   "error" : "There was an error"
+					                 });			      			
+			      		}
+			      		else{
+							var currUser =  {};
+							currUser.email = {"email" : users[0].email, "followers": user1.length, "following": users.length};
+			      			 res.json({
+					                   "status" : "OK",
+					                   "user"   : currUser
+					                 });	
+							}
+						  });
+			      	}
 			 });
 
 		};
@@ -218,6 +193,7 @@ module.exports = function(){
 						  var following = new Follows();
 						  following.username = currentUser;
 						  following.follows = followUser;
+						  following.email = req.user.email;
 						  following.save(function(err){
 							if(err){ // use indexing to make sure unique pairs
 							    res.json({

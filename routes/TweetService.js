@@ -62,21 +62,14 @@ module.exports = function(){
 
     Item.findOneAndRemove({ $and:[{'_id': tweet_id }, {'username': currentUser} ]}, function(err, item){
     	if (err){
-    	    res.json({
-    	     "status" : "error",
-    	     "error" : "There was an error"
-    	   });
+    	    res.status(500).send({ error: 'ERROR' });
     	} 
     	else if(!item){
-    	    res.json({
-    	     "status" : "error",
-    	     "error" : "This tweet either does not exist or you are not authorized to delete this tweet."
-    	   });
+        res.status(500).send({ error: 'This tweet either does not exist or you are not authorized to delete this tweet.' });
     	}
     	else{
-    	   res.json({
-    	     "status" : "OK"
-    	   });
+    	   res.status(200).send({ error: 'OK' });
+
     	}
 
     });

@@ -29,7 +29,7 @@ router.get('/search',function(req, res, next){
 });
 
 router.get('/lb',function(req,res,next){
-  res.send('fuck this project');
+  res.send('litttyyyyy');
 })
 // --------------ITEM LOGIC --> tweetHelper.js
 router.post('/additem', ensureAuthenticated, addItem);
