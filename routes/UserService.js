@@ -237,7 +237,7 @@ module.exports = function(){
 			else{
 				res.json({
 						"status" : "OK",
-						"usernames": users
+						"users": users
 				});
 			}
 		});
@@ -257,7 +257,7 @@ module.exports = function(){
 			else{
 				res.json({
 						"status" : "OK",
-						"usernames": users
+						"users": users
 				});
 			}
 		});
