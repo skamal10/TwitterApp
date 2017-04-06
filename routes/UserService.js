@@ -130,39 +130,27 @@ module.exports = function(){
 
 		this.searchByUserName = function(req, res, next){
 			var username = req.params.username;
-			 Follows.find({'username' : username},'email -_id', function(err, users){
-			 	if(err){
+			User.find({'username' : username}, 'email -_id',function(err, user){
+				if(err || !user ){
 			         res.json({
 			                   "status" : "error",
 			                   "error" : "There was an error"
 			                 });
 			      }
-			      else if(!users || users.length <= 0 ){ // user not found
-			        res.json({
-			                   "status" : "error",
-			                   "error" : "No user associated with that email"
-			                 });
-			      }
-			      else{
-			      	Follows.find({'follows' : username}, function(err,user1){
-			      		if(err || !user1){
-					         res.json({
-					                   "status" : "error",
-					                   "error" : "There was an error"
-					                 });			      			
-			      		}
-			      		else{
-							var currUser =  {};
-							currUser.email = {"email" : users[0].email, "followers": user1.length, "following": users.length};
-			      			 res.json({
-					                   "status" : "OK",
-					                   "user"   : currUser
-					                 });	
-							}
-						  });
-			      	}
-			 });
+			    else{
+			    	Follows.count({'username' : username},function(err, followsCount){
 
+			    		Follows.count({'follows': username},function(err, followersCount){
+			    				user.following = followsCount;
+			    				user.followers = followersCount;
+			    				res.json({
+			    					"status": "OK",
+			    					"user"  : user
+			    				});
+			    		});
+			    	});
+			     }
+			});
 		};
 
 		this.followUser = function(req , res, next){
