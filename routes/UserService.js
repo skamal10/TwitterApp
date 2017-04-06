@@ -141,8 +141,8 @@ module.exports = function(){
 			    	Follows.count({'username' : username},function(err, followsCount){
 
 			    		Follows.count({'follows': username},function(err, followersCount){
-			    				user.following = followsCount;
-			    				user.followers = followersCount;
+			    				user.following = !followsCount ? 0 : followsCount;
+			    				user.followers = !followersCount ? 0 : followersCount;
 			    				res.json({
 			    					"status": "OK",
 			    					"user"  : user
