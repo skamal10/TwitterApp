@@ -130,7 +130,7 @@ module.exports = function(){
 
 		this.searchByUserName = function(req, res, next){
 			var username = req.params.username;
-			User.find({'username' : username}, 'email -_id',function(err, user){
+			User.findOne({'username' : username}, 'email -_id',function(err, user){
 				if(err || !user ){
 			         res.json({
 			                   "status" : "error",
