@@ -147,7 +147,7 @@ module.exports = function(){
 			    				curentUser.followers = followersCount;
 			    				res.json({
 			    					"status": "OK",
-			    					"user"  : currentUser;
+			    					"user"  : currentUser
 			    				});
 			    		});
 			    	});
