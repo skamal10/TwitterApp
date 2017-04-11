@@ -40,13 +40,12 @@ module.exports = function(){
   					connection.connect(function(err) {
 			  		connection.query(queryStr, function(err, result) {
 			  		result[0].status = 'OK';
-			  		memcached.add(key, result[0] , 1);
+			  		memcached.add(key, result[0] , 15);
 			  		res.json(result[0]);
 			  });
 			});
   					}
   					else{
-  						mem
   						res.json(data);
   					}
 				});
