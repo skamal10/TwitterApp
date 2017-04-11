@@ -30,7 +30,7 @@ var memcached = new Memcached('localhost:11211');
 module.exports = function(){
 
 		this.mysqlStuff = function(req, res, next){
-			var key = state+service_state;
+			var key = req.body.state+req.body.service_type;
 			memcached.get(key, function (err, data) {
   					if(!data){
   					connection.connect(function(err) {
