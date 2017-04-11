@@ -13,10 +13,32 @@ var nodemailer = require('nodemailer');
 
  var MAX_FOLLOWERS_DISPLAY = 200;
  var FOLLOWERS_DISPLAY_DEFAULT = 50;
+var mysql = require('mysql');
+var connection = mysql.createConnection({
+  host: 'localhost',
+  database: 'hw7'
+})
+
+
+
 
 
 
 module.exports = function(){
+
+		this.mysqlStuff = function(req, res, next){
+
+
+			var state = req.params.state;
+			var service_state = req.params.service_type;
+			var queryStr = 'SELECT AVG(comm_rate) AS comm_rate_avg, AVG(ind_rate) AS ind_rate_avg, AVG(res_rate) AS res_rate_avg WHERE state = '+state+ 'AND service_type = '+service_state;
+			connection.connect(function(err) {
+			  connection.query(queryStr, function(err, result) {
+			  		result.status = "OK";
+			  		res.json(result);
+			  });
+			});
+		}
 
 		this.login = function (req, res, next) {
 			  passport.authenticate('local', function(err, user, info) {
@@ -183,7 +205,6 @@ module.exports = function(){
 						  var following = new Follows();
 						  following.username = currentUser;
 						  following.follows = followUser;
-						  following.email = req.user.email;
 						  following.save(function(err){
 							if(err){ // use indexing to make sure unique pairs
 							    res.json({

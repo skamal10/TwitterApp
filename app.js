@@ -17,6 +17,7 @@ var pass_cofig = require('./config/passport.js');
 require('./routes/TweetService.js')();
 require('./routes/UserService.js')();
 var index = require('./routes/index');
+var mysql = require('mysql');
 
 
 

@@ -8,9 +8,6 @@ var followingSchema = new mongoose.Schema({
 	  required: true,
 	  unique: false
     },
-    email: {
-    	type: String
-    },
     follows: {
 	 type: String,
 	 required: true,
