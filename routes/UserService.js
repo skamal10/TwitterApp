@@ -35,7 +35,7 @@ module.exports = function(){
 			console.log(queryStr);
 			connection.connect(function(err) {
 			  connection.query(queryStr, function(err, result) {
-			  		result.status = "OK";
+			  		console.log(result);
 			  		res.json(result);
 			  });
 			});
