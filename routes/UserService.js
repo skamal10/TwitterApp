@@ -20,7 +20,8 @@ var connection = mysql.createConnection({
   database: 'hw7'
 
 })
-
+var Memcached = require('memcached');
+var memcached = new Memcached('localhost:11211');
 
 
 
@@ -31,17 +32,29 @@ module.exports = function(){
 		this.mysqlStuff = function(req, res, next){
 			var state = req.body.state;
 			var service_state = req.body.service_type;
+
+			var key = state+service_state;
 			var queryStr = 'SELECT AVG(comm_rate) AS comm_rate_avg, AVG(ind_rate) AS ind_rate_avg, AVG(res_rate) AS res_rate_avg FROM electric WHERE state = \''+ state+ '\' AND service_type = \''+service_state+'\'';
-			connection.connect(function(err) {
-			  connection.query(queryStr, function(err, result) {
+
+
+			memcached.get(key, function (err, data) {
+  					if(!data){
+  					connection.connect(function(err) {
+			  		connection.query(queryStr, function(err, result) {
 			  		var ret = {};
 			  		ret.status = 'OK';
 			  		ret.comm_rate_avg = result[0].comm_rate_avg;
 			  		ret.ind_rate_avg = result[0].ind_rate_avg;
 			  		ret.res_rate_avg = result[0].res_rate_avg;
+			  		memcached.add(key, ret , 3);
 			  		res.json(ret);
 			  });
 			});
+  					}
+  					else{
+  						res.json(data);
+  					}
+				});
 		}
 
 		this.login = function (req, res, next) {
