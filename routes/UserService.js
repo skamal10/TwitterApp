@@ -40,7 +40,7 @@ module.exports = function(){
   					connection.connect(function(err) {
 			  		connection.query(queryStr, function(err, result) {
 			  		result[0].status = 'OK';
-			  		memcached.add(key, result[0] , 15);
+			  		memcached.add(key, result[0]);
 			  		res.json(result[0]);
 			  });
 			});
