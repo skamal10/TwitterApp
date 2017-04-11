@@ -34,9 +34,12 @@ module.exports = function(){
 			var queryStr = 'SELECT AVG(comm_rate) AS comm_rate_avg, AVG(ind_rate) AS ind_rate_avg, AVG(res_rate) AS res_rate_avg FROM electric WHERE state = \''+ state+ '\' AND service_type = \''+service_state+'\'';
 			connection.connect(function(err) {
 			  connection.query(queryStr, function(err, result) {
-			  		result.status = 'OK';
-			  		console.log(result);
-			  		res.json(result);
+			  		ret.status = 'OK';
+			  		ret.comm_rate_avg = result[0].comm_rate_avg;
+			  		ret.ind_rate_avg = result[0].ind_rate_avg;
+			  		ret.res_rate_avg = result[0].res_rate_avg;
+			  		console.log(ret);
+			  		res.json(ret);
 			  });
 			});
 		}
