@@ -31,7 +31,7 @@ module.exports = function(){
 
 			var state = req.body.state;
 			var service_state = req.body.service_type;
-			var queryStr = 'SELECT AVG(comm_rate) AS comm_rate_avg, AVG(ind_rate) AS ind_rate_avg, AVG(res_rate) AS res_rate_avg WHERE state = '+state+ 'AND service_type = '+service_state;
+			var queryStr = 'SELECT AVG(comm_rate) AS comm_rate_avg, AVG(ind_rate) AS ind_rate_avg, AVG(res_rate) AS res_rate_avg FROM electric WHERE state = '+ state+ ' AND service_type = '+service_state;
 			connection.connect(function(err) {
 			  connection.query(queryStr, function(err, result) {
 			  		result.status = "OK";
