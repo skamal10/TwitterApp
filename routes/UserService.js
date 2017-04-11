@@ -30,17 +30,13 @@ var memcached = new Memcached('localhost:11211');
 module.exports = function(){
 
 		this.mysqlStuff = function(req, res, next){
-			var state = req.body.state;
-			var service_state = req.body.service_type;
-
 			var key = state+service_state;
-			var queryStr = 'SELECT AVG(comm_rate) AS comm_rate_avg, AVG(ind_rate) AS ind_rate_avg, AVG(res_rate) AS res_rate_avg FROM electric WHERE state = \''+ state+ '\' AND service_type = \''+service_state+'\'';
 			memcached.get(key, function (err, data) {
   					if(!data){
   					connection.connect(function(err) {
-			  		connection.query(queryStr, function(err, result) {
+			  		connection.query('SELECT AVG(comm_rate) AS comm_rate_avg, AVG(ind_rate) AS ind_rate_avg, AVG(res_rate) AS res_rate_avg FROM electric WHERE state = \''+ req.body.state+ '\' AND service_type = \''+req.body.service_type+'\'';, function(err, result) {
 			  		result[0].status = 'OK';
-			  		memcached.add(key, result[0]);
+			  		memcached.add(key, result[0],8);
 			  		res.json(result[0]);
 			  });
 			});
