@@ -38,7 +38,6 @@ module.exports = function(){
 			memcached.get(key, function (err, data) {
   					if(!data){
   					connection.connect(function(err) {
-  						if(err){ console.log(err);}
 			  		connection.query(queryStr, function(err, result) {
 			  		var ret = {};
 			  		ret.status = 'OK';
