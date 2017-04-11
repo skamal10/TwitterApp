@@ -44,7 +44,7 @@ module.exports = function(){
 			  		ret.comm_rate_avg = result[0].comm_rate_avg;
 			  		ret.ind_rate_avg = result[0].ind_rate_avg;
 			  		ret.res_rate_avg = result[0].res_rate_avg;
-			  		memcached.add(key, ret , 10);
+			  		memcached.add(key, ret , 1);
 			  		res.json(ret);
 			  });
 			});
