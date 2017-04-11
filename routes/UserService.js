@@ -39,17 +39,14 @@ module.exports = function(){
   					if(!data){
   					connection.connect(function(err) {
 			  		connection.query(queryStr, function(err, result) {
-			  		var ret = {};
-			  		ret.status = 'OK';
-			  		ret.comm_rate_avg = result[0].comm_rate_avg;
-			  		ret.ind_rate_avg = result[0].ind_rate_avg;
-			  		ret.res_rate_avg = result[0].res_rate_avg;
-			  		memcached.add(key, ret , 1);
-			  		res.json(ret);
+			  		result[0].status = 'OK';
+			  		memcached.add(key, result[0] , 1);
+			  		res.json(result[0]);
 			  });
 			});
   					}
   					else{
+  						mem
   						res.json(data);
   					}
 				});
