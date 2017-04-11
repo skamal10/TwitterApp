@@ -39,7 +39,6 @@ module.exports = function(){
 			  		ret.comm_rate_avg = result[0].comm_rate_avg;
 			  		ret.ind_rate_avg = result[0].ind_rate_avg;
 			  		ret.res_rate_avg = result[0].res_rate_avg;
-			  		console.log(ret);
 			  		res.json(ret);
 			  });
 			});
