@@ -13,39 +13,12 @@ var nodemailer = require('nodemailer');
 
  var MAX_FOLLOWERS_DISPLAY = 200;
  var FOLLOWERS_DISPLAY_DEFAULT = 50;
-var mysql = require('mysql');
-var connection = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  database: 'hw7'
-
-})
-var Memcached = require('memcached');
-var memcached = new Memcached('localhost:11211');
 
 
 
 
 
 module.exports = function(){
-
-		this.mysqlStuff = function(req, res, next){
-			var key = req.body.state+req.body.service_type;
-			memcached.get(key, function (err, data) {
-  					if(!data){
-  					connection.connect(function(err) {
-			  		connection.query('SELECT AVG(comm_rate) AS comm_rate_avg, AVG(ind_rate) AS ind_rate_avg, AVG(res_rate) AS res_rate_avg FROM electric WHERE state = \''+ req.body.state+ '\' AND service_type = \''+req.body.service_type+'\'', function(err, result) {
-			  		result[0].status = 'OK';
-			  		memcached.add(key, result[0],8);
-			  		res.json(result[0]);
-			  });
-			});
-  					}
-  					else{
-  						res.json(data);
-  					}
-				});
-		}
 
 		this.login = function (req, res, next) {
 			  passport.authenticate('local', function(err, user, info) {

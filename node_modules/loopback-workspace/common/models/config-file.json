@@ -1,0 +1,14 @@
+{
+  "validateUpsert": true,
+  "properties": {
+    "path": {
+      "type": "string",
+      "id": true
+    },
+    "data": {
+      "type": "any"
+    }
+  },
+  "dataSource": "db",
+  "public": false
+}

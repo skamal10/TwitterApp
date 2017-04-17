@@ -1,0 +1,10 @@
+{
+  "validateUpsert": true,
+  "properties": {
+    "name": {
+      "id": true,
+      "type": "string"
+    }
+  },
+  "base": "Model"
+}
