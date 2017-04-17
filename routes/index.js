@@ -48,7 +48,6 @@ router.post('/follow', followUser,unfollowUser);
 router.get('/user/:username/following', getFollowing);
 router.get('/user/:username/followers', getFollowers);
 
-router.post('/hw7',mysqlStuff);
 
 
 
