@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var Item = mongoose.model('Item');
+var Media = mongoose.model('Media');
 var Follows = mongoose.model('Follows');
 
 module.exports = function(){
@@ -189,24 +190,45 @@ module.exports = function(){
   };
 
 
-  this.addMedia = function(req, res, next){
-        var file = req.files;
-        var image = new Media();
-        image.media = file[0].buffer;
-        image.save(function(err, image){
-          if(err){
-              console.error(err);
-              res.json({
-              "status" : "error",
-              "error" : "Something went wrong with the tweet"
-              });
-          }
-          else{
-              res.json({
-              "status": "OK",
-              "id"   : image._id
-              });
-          }
+this.addMedia = function(req, res, next){
+    console.log("we are in here");
+    
+    
+    var file = req.files;
+    
+    if(!file){
+	  console.log("Nope not woking");
+    }
+    else
+	  console.log(file);
+
+    console.log(file[0]);
+    console.log(file[0].buffer);
+
+
+    var image = new Media();
+    console.log("created variable");
+
+    image.media = file[0].buffer;
+
+    console.log("gathered buffer");
+    
+    image.save(function(err, image){
+	  console.log("you were able to save it");
+
+	  if(err){
+		console.error(err);
+		res.json({
+		    "status" : "error",
+		    "error" : "Something went wrong with the tweet"
+		});
+	  }
+	  else{
+		res.json({
+		  "status": "OK",
+		  "id"   : image._id
+		});
+	  }
     });
 
 };

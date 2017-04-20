@@ -32,10 +32,10 @@ app.set('view engine', 'ejs');
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(express.static(path.join(__dirname, 'public')));
-//app.use(logger('dev')); // COMMENT THIS OUT FOR THE SCRIPT!!!!!!!
+app.use(logger('dev')); // COMMENT THIS OUT FOR THE SCRIPT!!!!!!!
 
-app.use(bodyParser.json({limit: '16mb'}));
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json({limit: '50mb'}));
+app.use(bodyParser.urlencoded({ limit: '50mb', extended: false }));
 app.use(cookieParser());
 
 // app.use(session({
