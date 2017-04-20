@@ -2,6 +2,7 @@ var passport = require('passport');
 var mongoose = require('mongoose');
 var User = mongoose.model('User');
 var Follows = mongoose.model('Follows');
+var Following = mongoose.model('Following');
 var nodemailer = require('nodemailer');
  var transporter = nodemailer.createTransport({
         service: 'Gmail',
