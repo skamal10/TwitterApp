@@ -57,7 +57,8 @@ module.exports = function(){
       }
 
       else{
-        Item.update( {'_id': req.params.id}, { $pull: {'likes': [req.user._id] } }, function(err , item){
+        console.log(req.user._id);
+        Item.update( {'_id': req.params.id}, { $pullAll: {'likes': [req.user._id] } }, function(err , item){
           if(err || !item){
               res.json({
                               "status" : "error",
@@ -75,7 +76,7 @@ module.exports = function(){
 
 
   this.getItem = function(req, res, next){
-  	Item.findOne({'_id': req.params.id}, '-likes', function(err, item){ 
+  	Item.findOne({'_id': req.params.id}, function(err, item){ 
 	  if (err){
 		res.json({
 		    "status" : "error",
@@ -191,10 +192,8 @@ module.exports = function(){
 
   this.addMedia = function(req, res, next){
         var file = req.files;
-        
         var image = new Media();
         image.media = file[0].buffer;
-
         image.save(function(err, image){
           if(err){
               console.error(err);
@@ -210,5 +209,7 @@ module.exports = function(){
               });
           }
     });
+
+};
 
 };
