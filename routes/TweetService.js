@@ -12,12 +12,16 @@ module.exports = function(){
     var newItem = new Item();
     newItem.content = req.body.content;
     newItem.username = req.user.username;
-    newItem.parent = req.body.parent;
-    newItem.media = req.body.media;
+
+    if(req.body.parent){
+        newItem.parent = req.body.parent;
+    }
+    if(req.body.media){
+      newItem.media = req.body.media;
+    }
     
     newItem.save(function(err){
 	    if(err){
-	        console.error(err);
 	        res.json({
 	        "status" : "error",
 	        "error" : "Something went wrong with the tweet"
