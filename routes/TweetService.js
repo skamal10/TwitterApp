@@ -202,30 +202,30 @@ module.exports = function(){
   };
 
 this.addMedia = function(req, res, next){
-    console.log("we are in here");
+//    console.log("we are in here");
     
     
     var file = req.files;
     
-    if(!file){
-	  console.log("Nope not woking");
-    }
-    else
-	  console.log(file);
+//    if(!file){
+//	  console.log("Nope not woking");
+//   }
+//    else
+//	  console.log(file);
 
-    console.log(file[0]);
-    console.log(file[0].buffer);
+//    console.log(file[0]);
+//    console.log(file[0].buffer);
 
 
     var image = new Media();
-    console.log("created variable");
+//    console.log("created variable");
 
     image.media = file[0].buffer;
 
-    console.log("gathered buffer");
+//    console.log("gathered buffer");
     
     image.save(function(err, image){
-	  console.log("you were able to save it");
+//	  console.log("you were able to save it");
 
 	  if(err){
 		console.error(err);
