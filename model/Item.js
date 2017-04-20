@@ -13,7 +13,7 @@ var itemSchema = new mongoose.Schema({
 	 type: String,
 	 required: true
     },
-    timestamp: { 
+    times: { 
 	 type: Date, 
 	 default: Date.now 
     },
@@ -24,6 +24,7 @@ var itemSchema = new mongoose.Schema({
     likes: [mongoose.Schema.Types.ObjectId]
 });
 itemSchema.virtual('id').get(function() { return this._id; });
+itemSchema.virtual('timestamp').get(function{return new Date(this._id);});
 itemSchema.set('toJSON', {
     virtuals: true
 });
