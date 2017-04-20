@@ -255,7 +255,8 @@ this.getMedia = function(req, res, next){
            });
     }
     else{
-        res.send(img.media);
+        res.writeHead(200, {'Content-Type': 'image/jpeg' });
+        res.end(img.media);
     }
   }); 
 
