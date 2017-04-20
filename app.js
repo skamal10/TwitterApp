@@ -12,7 +12,10 @@ var mongoose = require('mongoose');
 var MongoStore = require('connect-mongo')(session);
 var userObj = require('./model/User');
 var itemObj = require('./model/Item');
+var followingObj = require('./model/Item');
+var followsObj = require('./model/Following');
 var followsObj = require('./model/Follows');
+var MediaObj = require('./model/Media');
 var pass_cofig = require('./config/passport.js');
 require('./routes/TweetService.js')();
 require('./routes/UserService.js')();
@@ -29,7 +32,7 @@ app.set('view engine', 'ejs');
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(logger('dev')); // COMMENT THIS OUT FOR THE SCRIPT!!!!!!!
+//app.use(logger('dev')); // COMMENT THIS OUT FOR THE SCRIPT!!!!!!!
 
 app.use(bodyParser.json({limit: '16mb'}));
 app.use(bodyParser.urlencoded({ extended: true }));

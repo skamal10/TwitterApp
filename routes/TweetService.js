@@ -57,7 +57,6 @@ module.exports = function(){
       }
 
       else{
-        console.log(req.user._id);
         Item.update( {'_id': req.params.id}, { $pullAll: {'likes': [req.user._id] } }, function(err , item){
           if(err || !item){
               res.json({
