@@ -22,10 +22,9 @@ module.exports = function(){
     
     newItem.save(function(err){
 	    if(err){
-        console.log(err);
 	        res.json({
 	        "status" : "error",
-	        "error" : "Something went wrong with the tweet"
+	        "error" : err
 	        });
 	    }
 	    else{
