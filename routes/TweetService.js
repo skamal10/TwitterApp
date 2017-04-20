@@ -248,16 +248,16 @@ this.addMedia = function(req, res, next){
 this.getMedia = function(req, res, next){
   var id = req.params.id;
   Media.findOne({'_id': id}, function(err, img){
-    if(err || !img){
-           res.json({
-              "status" : "error",
-              "error" : "Something went wrong with the tweet"
-           });
-    }
-    else{
+    // if(err || !img){
+    //        res.json({
+    //           "status" : "error",
+    //           "error" : "Something went wrong with the tweet"
+    //        });
+    // }
+    // else{
         res.writeHead(200, {'Content-Type': 'image/jpeg' });
         res.end(img.media);
-    }
+    //}
   }); 
 
 };
