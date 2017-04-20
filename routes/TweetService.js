@@ -90,9 +90,8 @@ module.exports = function(){
 	  }
 	  else{
 		if(item){
-        	item.id = item._id;
-		    res.json({"status" : "OK", 
-                   "item": item});
+		    res.json({ "status" : "OK", 
+                   "item": item });
 		}
 		else{ 
 		    res.json({
