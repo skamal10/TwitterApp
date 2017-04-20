@@ -155,7 +155,7 @@ module.exports = function(){
           Follows.find({'username': username}).distinct('follows').exec(function(err, following){
             Item.find({ $and: 
             [req.body.username ? {'username': req.body.username} : {}, 
-            { 'timestamp': {$lte: start_date} },
+            { 'times': {$lte: start_date} },
             req.body.q ? {$text: {$search: req.body.q}} : {},
             { username: { $in: following } } ]}
             ).limit(numItems).exec(function(err, itemList) {     
@@ -180,9 +180,9 @@ module.exports = function(){
         Item.find({ $and: 
             [req.body.username ? {'username': req.body.username} : {}, 
              req.body.parent ? {'parent' : req.body.parent} : {},
-            { 'timestamp': {$lte: start_date} },
+            { 'times': {$lte: start_date} },
             req.body.q ? {$text: {$search: req.body.q}} : {}]}
-            ).limit(numItems).sort({timestamp: 1}).exec(function(err, itemList) {     
+            ).limit(numItems).sort({times: 1}).exec(function(err, itemList) {     
             if (err){
                   res.json({
                       "status" : "error",

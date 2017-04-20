@@ -29,6 +29,6 @@ itemSchema.set('toJSON', {
     virtuals: true
 });
 itemSchema.index( {content: "text"} );
-itemSchema.index( {timestamp: -1});
+itemSchema.index( {times: -1});
 itemSchema.plugin(autoIncrement.plugin, 'Item');
 mongoose.model('Item', itemSchema);
