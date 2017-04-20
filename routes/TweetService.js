@@ -182,7 +182,7 @@ module.exports = function(){
              req.body.parent ? {'parent' : req.body.parent} : {},
             { 'times': {$lte: start_date} },
             req.body.q ? {$text: {$search: req.body.q}} : {}]}
-            ).limit(numItems).sort({times: 1}).exec(function(err, itemList) {     
+            ).limit(numItems).sort({times: -1}).exec(function(err, itemList) {     
             if (err){
                   res.json({
                       "status" : "error",
