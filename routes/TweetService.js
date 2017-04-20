@@ -156,7 +156,7 @@ module.exports = function(){
             Item.find({ $and: 
             [req.body.username ? {'username': req.body.username} : {}, 
             { 'times': {$lte: start_date} },
-            req.body.q ? {$text: {$search: req.body.q}} : {},
+            req.body.q ? {$text: {$search: "\"" + req.body.q + "\""}} : {},
             { username: { $in: following } } ]}
             ).limit(numItems).sort({times: -1}).exec(function(err, itemList) {     
             if (err){
