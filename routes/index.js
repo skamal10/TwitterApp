@@ -1,6 +1,8 @@
 
 var express = require('express');
 var router = express.Router();
+var multer = require('multer');
+var upload =  multer({ storage: multer.memoryStorage({}) });
 
 
 // render get requests
@@ -36,6 +38,8 @@ router.post('/additem', ensureAuthenticated, addItem);
 router.post('/search', ensureAuthenticated, searchItem);
 router.get('/item/:id', ensureAuthenticated, getItem);
 router.delete('/item/:id', ensureAuthenticated, deleteItem);
+router.post('/item/:id/like', ensureAuthenticated, likeItem);
+router.post('/addmedia', ensureAuthenticated, upload.any(), addMedia);
 
 // ---------------USER LOGIC --> UserService.js
 

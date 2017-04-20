@@ -17,6 +17,11 @@ var itemSchema = new mongoose.Schema({
 	 type: Date, 
 	 default: Date.now 
     },
+    parent:{
+    	type:  Number
+    },
+    media: [Number],
+    likes: [mongoose.Schema.Types.ObjectId]
 });
 itemSchema.virtual('id').get(function() { return this._id; });
 itemSchema.set('toJSON', {

@@ -11,6 +11,8 @@ module.exports = function(){
     var newItem = new Item();
     newItem.content = req.body.content;
     newItem.username = req.user.username;
+    newItem.parent = req.body.parent;
+    newItem.media = req.body.media;
     
     newItem.save(function(err){
 	    if(err){
@@ -30,10 +32,50 @@ module.exports = function(){
     });
   };
 
+  this.likeItem = function(req, res, next){
+      if(req.body.like == true || req.body.like == null){
+          Item.findOne({'_id': req.params.id}, function(err,item){
+                if (err || !item){
+                          res.json({
+                              "status" : "error",
+                              "error" : "There was an error"
+                          });
+                }
+
+                else{
+                  item.likes.push(req.user._id); // add to the likes list
+                  item.save(function(err){
+                       res.json({
+                          "status" : "OK"
+                        });
+
+                  });
+
+                }
+
+          });
+      }
+
+      else{
+        Item.update( {'_id': req.params.id}, { $pull: {'likes': [req.user._id] } }, function(err , item){
+          if(err || !item){
+              res.json({
+                              "status" : "error",
+                              "error" : "There was an error"
+                          });
+          }
+          else{
+            res.json({
+                  "status" : "OK"
+                    });
+          }
+        });
+      }
+  }
 
 
   this.getItem = function(req, res, next){
-  	Item.findOne({'_id': req.params.id}, function(err, item){ 
+  	Item.findOne({'_id': req.params.id}, '-likes', function(err, item){ 
 	  if (err){
 		res.json({
 		    "status" : "error",
@@ -147,5 +189,26 @@ module.exports = function(){
   };
 
 
+  this.addMedia = function(req, res, next){
+        var file = req.files;
+        
+        var image = new Media();
+        image.media = file[0].buffer;
+
+        image.save(function(err, image){
+          if(err){
+              console.error(err);
+              res.json({
+              "status" : "error",
+              "error" : "Something went wrong with the tweet"
+              });
+          }
+          else{
+              res.json({
+              "status": "OK",
+              "id"   : image._id
+              });
+          }
+    });
 
 };

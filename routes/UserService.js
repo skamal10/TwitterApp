@@ -14,10 +14,6 @@ var nodemailer = require('nodemailer');
  var MAX_FOLLOWERS_DISPLAY = 200;
  var FOLLOWERS_DISPLAY_DEFAULT = 50;
 
-
-
-
-
 module.exports = function(){
 
 		this.login = function (req, res, next) {
@@ -142,7 +138,7 @@ module.exports = function(){
 			    else{
 			    	Follows.count({'username' : username},function(err, followsCount){
 
-			    		Follows.count({'follows': username},function(err, followersCount){
+			    		Following.count({'username': username},function(err, followersCount){
 			    				var currentUser = {};
 			    				currentUser.email = user.email;
 			    				currentUser.following =  followsCount;
@@ -182,10 +178,11 @@ module.exports = function(){
 				                 });
 					}
 					else{
-						  var following = new Follows();
-						  following.username = currentUser;
-						  following.follows = followUser;
-						  following.save(function(err){
+						  var follow = new Follows();
+						  follow.username = currentUser;
+						  follow.follows = followUser;
+						  follow.save(function(err){
+
 							if(err){ // use indexing to make sure unique pairs
 							    res.json({
 							     "status" : "error",
@@ -193,9 +190,15 @@ module.exports = function(){
 								});
 						    }
 						    else{
-								res.json({
+						    	var following = new Following();
+						    	following.username = followUser;
+						    	following.followedBy = currentUser;
+
+						    	following.save(function(err){
+						    		res.json({
 									  "status": "OK"
-								});
+									});
+						    	});
 						    }
 						 });
 					}
@@ -216,9 +219,12 @@ module.exports = function(){
 						
 						}
 						else{ // SUCCESSFULLY REMOVED!
-						    res.json({
+
+						Following.findOneAndRemove({"username": unfollowUser , "followedBy": currentUser},function(err,user){
+							res.json({
 							  "status" : "OK"
 						    });
+						 });
 						}
 						
 					  });
@@ -227,7 +233,6 @@ module.exports = function(){
 	this.getFollowing = function(req, res, next){
 		var username = req.params.username;
 		var limit = req.body.limit == null || req.body.limit > MAX_FOLLOWERS_DISPLAY || req.body.limit < 0 ? FOLLOWERS_DISPLAY_DEFAULT : req.body.limit; 
-		console.log(req.params.limit);
 		Follows.find({'username': username}).select('follows -_id').limit(limit).exec(function(err, users){
 			if(users==null){
 					res.json({
@@ -248,7 +253,7 @@ module.exports = function(){
 		var username = req.params.username;
 		var limit = req.body.limit == null || req.body.limit > MAX_FOLLOWERS_DISPLAY || req.body.limit < 0 ? FOLLOWERS_DISPLAY_DEFAULT : req.body.limit; 
 
-		Follows.find({'follows': username}).select('username -_id').limit(limit).exec(function(err, users){
+		Following.find({'username': username}).select('followedBy -_id').limit(limit).exec(function(err, users){
 			if(users==null){
 					res.json({
 			            "status" : "error",
