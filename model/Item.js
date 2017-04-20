@@ -20,7 +20,7 @@ var itemSchema = new mongoose.Schema({
     parent:{
     	type:  Number
     },
-    media: [Number],
+    media: [mongoose.Schema.Types.ObjectId],
     likes: [mongoose.Schema.Types.ObjectId]
 });
 itemSchema.virtual('id').get(function() { return this._id; });
