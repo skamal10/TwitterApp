@@ -109,9 +109,16 @@ module.exports = function(){
     	else if(!item){
         res.status(500).send({ error: 'This tweet either does not exist or you are not authorized to delete this tweet.' });
     	}
-    	else{
-    	   res.status(200).send({ error: 'OK' });
+    	else{ 
 
+        if(item.media){
+             Media.remove({_id: {$in: item.media}}, function(){
+                 res.status(200).send({ status: 'OK' });
+             });
+        }
+        else{
+           res.status(200).send({ status: 'OK' });
+        }
     	}
 
     });
@@ -167,6 +174,7 @@ module.exports = function(){
   else{
         Item.find({ $and: 
             [req.body.username ? {'username': req.body.username} : {}, 
+             req.body.parent ? {'parent' : req.body.parent} : {},
             { 'timestamp': {$lte: start_date} },
             req.body.q ? {$text: {$search: req.body.q}} : {}]}
             ).limit(numItems).sort({timestamp: 1}).exec(function(err, itemList) {     
@@ -195,7 +203,6 @@ module.exports = function(){
         image.media = file[0].buffer;
         image.save(function(err, image){
           if(err){
-              console.error(err);
               res.json({
               "status" : "error",
               "error" : "Something went wrong with the tweet"
@@ -210,5 +217,21 @@ module.exports = function(){
     });
 
 };
+
+this.getMedia = function(req, res, next){
+  var id = req.params.id;
+  Media.findOne({'_id': id}, function(err, img){
+    if(err || img){
+           res.json({
+              "status" : "error",
+              "error" : "Something went wrong with the tweet"
+           });
+    }
+    else{
+        res.send(img.media);
+    }
+  }); 
+
+}
 
 };

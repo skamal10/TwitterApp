@@ -5,8 +5,7 @@ var mediaSchema = new mongoose.Schema({
     
     media: {
 	  type: Buffer,
-	  required: true,
-	  unique: false
+	  required: true
     }
 });
 mongoose.model('Media', mediaSchema);
