@@ -16,9 +16,9 @@ module.exports = function(){
     if(req.body.parent){
         newItem.parent = req.body.parent;
     }
-    if(req.body.media){
+    if(req.body.media && req.body.media.length > 0){
       newItem.media = [];
-      newItem.media = req.body.media;
+      newItem.media = req.body.media.slice();
     }
     
     newItem.save(function(err){
