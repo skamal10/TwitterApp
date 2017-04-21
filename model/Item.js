@@ -15,7 +15,7 @@ var itemSchema = new mongoose.Schema({
 	 default: Date.now 
     },
     parent:{
-    	type: mongoose.Schema.Types.ObjectId
+    	type:  mongoose.Schema.Types.ObjectId
     },
     media: [mongoose.Schema.Types.ObjectId],
     likes: [mongoose.Schema.Types.ObjectId]
