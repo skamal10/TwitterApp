@@ -21,15 +21,14 @@ module.exports = function(){
       newItem.media = req.body.media;
     }
     
-    newItem.save(function(err){
-	    if(err){
+    newItem.save(function(err, item){
+	    if(err || !item){
 	        res.json({
 	        "status" : "error",
 	        "error" : err
 	        });
 	    }
 	    else{
-	        res.status(200);
 	        res.json({
 	        "status": "OK",
 	        "id"   : newItem._id
