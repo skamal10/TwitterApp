@@ -13,7 +13,7 @@ var followSchema = new mongoose.Schema({
 	 required: true,
 	 unique: false
     }
-});
+}, { shardkey: { username: 1 }});
 
 followSchema.index({username: 1, follows: 1}, {unique: true});
 mongoose.model('Follows', followSchema);

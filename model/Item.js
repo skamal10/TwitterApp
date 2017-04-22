@@ -19,12 +19,11 @@ var itemSchema = new mongoose.Schema({
     },
     media: [mongoose.Schema.Types.ObjectId],
     likes: [mongoose.Schema.Types.ObjectId]
-});
+}, { shardkey: { _id: 1 }});
 itemSchema.virtual('id').get(function() { return this._id; });
 itemSchema.virtual('timestamp').get(function(){return new Date(this.times)*1000;});
 itemSchema.set('toJSON', {
     virtuals: true
 });
 itemSchema.index( {content: "text"} );
-itemSchema.index( {times: -1});
 mongoose.model('Item', itemSchema);

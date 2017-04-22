@@ -7,5 +7,5 @@ var mediaSchema = new mongoose.Schema({
 	  type: Buffer,
 	  required: true
     }
-});
+}, { shardkey: { _id: 1 }});
 mongoose.model('Media', mediaSchema);
