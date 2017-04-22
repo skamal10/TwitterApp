@@ -2,13 +2,10 @@ var mongoose = require('mongoose');
 var itemSchema = new mongoose.Schema({
     
     username: {
-	  type: String,
-	  required: true,
-	  unique: false
+	  type: String
     },
     content: {
-	 type: String,
-	 required: true
+	 type: String
     },
     times: { 
 	 type: Date, 
@@ -19,7 +16,7 @@ var itemSchema = new mongoose.Schema({
     },
     media: [mongoose.Schema.Types.ObjectId],
     likes: [mongoose.Schema.Types.ObjectId]
-}, { shardkey: { _id: 1 }});
+});
 itemSchema.virtual('id').get(function() { return this._id; });
 itemSchema.virtual('timestamp').get(function(){return new Date(this.times)*1000;});
 itemSchema.set('toJSON', {

@@ -23,7 +23,7 @@ var userSchema = new mongoose.Schema({
   hash: String,
   salt: String,
   verify_key: String
-}, { shardkey: { username: 1 }});
+});
 
 userSchema.methods.setPassword = function(password){
 	this.salt = crypto.randomBytes(16).toString('hex');
