@@ -7,7 +7,7 @@ module.exports = function(){
 
   this.addItem = function (req, res, next) {
 
-    // This function is gonna allow the user to add a post. For for we'll just
+       // This function is gonna allow the user to add a post. For for we'll just
     // just gonna add this to a database. The front end will add it to the view.
     var newItem = new Item();
     newItem.content = req.body.content;
