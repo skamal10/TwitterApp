@@ -26,5 +26,4 @@ itemSchema.set('toJSON', {
     virtuals: true
 });
 itemSchema.index( {content: "text"} );
-itemSchema.index( {times: -1});
 mongoose.model('Item', itemSchema);
