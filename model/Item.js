@@ -2,13 +2,10 @@ var mongoose = require('mongoose');
 var itemSchema = new mongoose.Schema({
     
     username: {
-	  type: String,
-	  required: true,
-	  unique: false
+	  type: String
     },
     content: {
-	 type: String,
-	 required: true
+	 type: String
     },
     times: { 
 	 type: Date, 

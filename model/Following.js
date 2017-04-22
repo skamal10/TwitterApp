@@ -4,14 +4,10 @@ var mongoose = require('mongoose');
 var followingSchema = new mongoose.Schema({
     
     username: {
-	  type: String,
-	  required: true,
-	  unique: false
+	  type: String
     },
     followedBy: {
-	 type: String,
-	 required: true,
-	 unique: false
+	 type: String
     }
 });
 
