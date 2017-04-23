@@ -161,7 +161,7 @@ module.exports = function(){
             if (err){
                   res.json({
                       "status" : "error",
-                      "error" : "There was an error"
+                      "error" : err.message
                   });
             }
             else{
@@ -185,7 +185,7 @@ module.exports = function(){
             if (err){
                   res.json({
                       "status" : "error",
-                      "error" : "There was an error"
+                      "error" : err.message
                   });
             }
             else{
