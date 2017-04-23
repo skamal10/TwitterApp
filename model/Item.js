@@ -1,7 +1,4 @@
 var mongoose = require('mongoose');
-var autoIncrement = require('mongoose-auto-increment');
-autoIncrement.initialize(mongoose);
-
 var itemSchema = new mongoose.Schema({
     
     username: {
@@ -26,5 +23,4 @@ itemSchema.set('toJSON', {
     virtuals: true
 });
 itemSchema.index( {content: "text"} );
-itemSchema.plugin(autoIncrement.plugin, 'Item');
 mongoose.model('Item', itemSchema);
