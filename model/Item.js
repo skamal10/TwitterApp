@@ -22,5 +22,6 @@ itemSchema.virtual('timestamp').get(function(){return new Date(this.times)*1000;
 itemSchema.set('toJSON', {
     virtuals: true
 });
+itemSchema.index( {times: -1});
 itemSchema.index( {content: "text"} );
 mongoose.model('Item', itemSchema);
