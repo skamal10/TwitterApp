@@ -1,4 +1,6 @@
 var mongoose = require('mongoose');
+var explain = require('mongoose-explain');
+
 var itemSchema = new mongoose.Schema({
     
     username: {
@@ -17,6 +19,9 @@ var itemSchema = new mongoose.Schema({
     media: [mongoose.Schema.Types.ObjectId],
     likes: [mongoose.Schema.Types.ObjectId]
 });
+
+itemSchema.plugin(explain);
+
 itemSchema.virtual('id').get(function() { return this._id; });
 itemSchema.virtual('timestamp').get(function(){return new Date(this.times)*1000;});
 itemSchema.set('toJSON', {

@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');  
 var crypto = require('crypto');
+var explain = require('mongoose-explain');
 
 var userSchema = new mongoose.Schema({  
   verified: {
@@ -24,6 +25,8 @@ var userSchema = new mongoose.Schema({
   salt: String,
   verify_key: String
 });
+
+userSchema.plugin(explain);
 
 userSchema.methods.setPassword = function(password){
 	this.salt = crypto.randomBytes(16).toString('hex');
