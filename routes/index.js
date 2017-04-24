@@ -44,7 +44,7 @@ router.post('/addmedia', ensureAuthenticated, upload.any(), addMedia);
 // ---------------USER LOGIC --> UserService.js
 
 router.post('/login', login);
-router.post('/logout', ensureAuthenticated, logout);
+router.post('/logout', logout);
 router.post('/addUser', addUser);
 router.post('/verify', verifyUser);
 router.get('/user/:username', searchByUserName);
