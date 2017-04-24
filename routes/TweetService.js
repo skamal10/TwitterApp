@@ -38,7 +38,7 @@ module.exports = function(){
 
   this.likeItem = function(req, res, next){
       if(req.body.like == true || req.body.like == null){
-          Item.findOne({'_id': req.params.id}, function(err,item){
+          Item.findOne({'_id': req.params.id}).maxTime(20000).exec(function(err,item){
                 if (err || !item){
                           res.json({
                               "status" : "error",
@@ -79,7 +79,7 @@ module.exports = function(){
 
 
   this.getItem = function(req, res, next){
-  	Item.findOne({'_id': req.params.id}, function(err, item){ 
+  	Item.findOne({'_id': req.params.id}).maxTime(20000).exec(function(err, item){ 
 	  if (err){
 		res.json({
 		    "status" : "error",
@@ -156,7 +156,7 @@ module.exports = function(){
             { 'times': {$lte: start_date} },
             req.body.q ? {$text: {$search: req.body.q}} : {},
             { username: { $in: following } } ]}
-            ).limit(numItems).sort({times: -1}).exec(function(err, itemList) {     
+            ).limit(numItems).sort({times: -1}).maxTime(20000).exec(function(err, itemList) {     
             if (err){
                   res.json({
                       "status" : "error",
@@ -180,7 +180,7 @@ module.exports = function(){
              req.body.parent ? {'parent' : req.body.parent} : {},
             { 'times': {$lte: start_date} },
             req.body.q ? {$text: {$search: req.body.q}} : {}]}
-            ).limit(numItems).sort({times: -1}).exec(function(err, itemList) {     
+            ).limit(numItems).sort({times: -1}).maxTime(20000).exec(function(err, itemList) {     
             if (err){
                   res.json({
                       "status" : "error",
