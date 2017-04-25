@@ -165,7 +165,7 @@ module.exports = function(){
             Item.find({ $and: 
             [req.body.username ? {'username': req.body.username} : {}, 
             { 'times': {$lte: start_date} },
-            //req.body.q ? {$text: {$search: req.body.q}} : {},
+            req.body.q ? {$text: {$search: req.body.q}} : {},
             { username: { $in: following } } ]}
             ).limit(numItems).sort({times: -1}).maxTime(20000).exec(function(err, itemList) {     
             if (err){
@@ -189,7 +189,8 @@ module.exports = function(){
         Item.find({ $and: 
             [req.body.username ? {'username': req.body.username} : {}, 
              req.body.parent ? {'parent' : req.body.parent} : {},
-            { 'times': {$lte: start_date} }]}
+            { 'times': {$lte: start_date} },
+            req.body.q ? {$text: {$search: req.body.q}} : {}]}
             ).limit(numItems).sort({times: -1}).maxTime(20000).exec(function(err, itemList) {     
             if (err){
                   res.json({
