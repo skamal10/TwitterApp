@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-var Item = mongoose.model('Item');
+var Item = require('../model/Item.js');
 var Media = mongoose.model('Media');
 var Follows = mongoose.model('Follows');
 
