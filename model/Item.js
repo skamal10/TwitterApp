@@ -1,7 +1,4 @@
 var mongoose = require('mongoose');
-
-var conn = mongoose.createConnection('mongodb://127.0.0.1:27017/twitter_db', { server: { socketOptions: { keepAlive: 300000, connectTimeoutMS: 30000 } } });
-
 var explain = require('mongoose-explain');
 
 var itemSchema = new mongoose.Schema({
@@ -32,4 +29,4 @@ itemSchema.set('toJSON', {
 });
 //itemSchema.index( {times: -1});
 //itemSchema.index( {content: "text"} );
-conn.model('Item', itemSchema);
+mongoose.model('Item', itemSchema);
