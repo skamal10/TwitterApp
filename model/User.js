@@ -26,7 +26,7 @@ var userSchema = new mongoose.Schema({
   verify_key: String
 });
 
-userSchema.plugin(explain);
+//userSchema.plugin(explain);
 
 userSchema.methods.setPassword = function(password){
 	this.salt = crypto.randomBytes(16).toString('hex');
