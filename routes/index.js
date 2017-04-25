@@ -40,7 +40,6 @@ router.get('/item/:id', ensureAuthenticated, getItem);
 router.delete('/item/:id', ensureAuthenticated, deleteItem);
 router.post('/item/:id/like', ensureAuthenticated, likeItem);
 router.post('/addmedia', ensureAuthenticated, upload.any(), addMedia);
-router.post('/checkingTest',checkingShit);
 
 // ---------------USER LOGIC --> UserService.js
 
