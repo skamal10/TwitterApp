@@ -5,6 +5,13 @@ var Follows = mongoose.model('Follows');
 
 module.exports = function(){
 
+
+  this.checkingShit = function(req, res, next){
+    res.send("OK");
+
+    console.log("OK");
+  }
+
   this.addItem = function (req, res, next) {
 
        // This function is gonna allow the user to add a post. For for we'll just
