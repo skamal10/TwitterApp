@@ -157,8 +157,10 @@ module.exports = function(){
     }
 
     if(req.body.q){
-      var tweets = [];
-      res.json(tweets);
+     res.json({
+      "status": "OK",
+      "items"   : []
+    });
     }
     else{
     var findByFollowing = req.body.following == null || req.body.following == true ? true : false;
