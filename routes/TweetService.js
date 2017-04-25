@@ -156,7 +156,11 @@ module.exports = function(){
         numItems = 25;
     }
 
-
+    if(req.body.q){
+      var tweets = [];
+      res.json(tweets);
+    }
+    else{
     var findByFollowing = req.body.following == null || req.body.following == true ? true : false;
 
     if(findByFollowing){
@@ -206,6 +210,7 @@ module.exports = function(){
 
             });
   }
+}
 
   };
 
