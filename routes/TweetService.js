@@ -2,24 +2,24 @@ var mongoose = require('mongoose');
 var Item = require('../model/Item.js');
 var Media = mongoose.model('Media');
 var Follows = mongoose.model('Follows');
+var ObjectID = require("bson-objectid");
 
 module.exports = function(){
-
-
-  this.checkingShit = function(req, res, next){
-    res.send("OK");
-
-    var newItem = new Item();
-    newItem.content = "TEST";
-    newItem.username = 'DUMMYDATA';
-    newItem.save();
-  }
 
   this.addItem = function (req, res, next) {
 
        // This function is gonna allow the user to add a post. For for we'll just
     // just gonna add this to a database. The front end will add it to the view.
+
+    var id = ObjectID();
+      res.json({
+             "status": "OK",
+             "id"   : id
+            });
+
+
     var newItem = new Item();
+    newItem._id = id;
     newItem.content = req.body.content;
     newItem.username = req.user.username;
 
@@ -29,21 +29,22 @@ module.exports = function(){
     if(req.body.media){
       newItem.media = req.body.media;
     }
-    
-    newItem.save(function(err, item){
-	    if(err || !item){
-	        res.json({
-	        "status" : "error",
-	        "error" : err
-	        });
-	    }
-	    else{
-	        res.json({
-	        "status": "OK",
-	        "id"   : newItem._id
-	        });
-	    }
-    });
+
+    newItem.save();
+    // newItem.save(function(err, item){
+	   //  if(err || !item){
+	   //      res.json({
+	   //      "status" : "error",
+	   //      "error" : err
+	   //      });
+	   //  }
+	   //  else{
+	   //      res.json({
+	   //      "status": "OK",
+	   //      "id"   : newItem._id
+	   //      });
+	   //  }
+    // });
   };
 
   this.likeItem = function(req, res, next){
