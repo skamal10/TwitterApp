@@ -9,7 +9,10 @@ module.exports = function(){
   this.checkingShit = function(req, res, next){
     res.send("OK");
 
-    console.log("OK");
+    var newItem = new Item();
+    newItem.content = "TEST";
+    newItem.username = 'DUMMYDATA';
+    newItem.save();
   }
 
   this.addItem = function (req, res, next) {
