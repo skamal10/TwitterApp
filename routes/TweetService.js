@@ -116,25 +116,12 @@ module.exports = function(){
   	var tweet_id = req.params.id;
   	var currentUser = req.user.username;
 
+    res.status(200).send({ status: 'OK' });
+
     Item.findOneAndRemove({ $and:[{'_id': tweet_id }, {'username': currentUser} ]}, function(err, item){
-    	if (err){
-    	    res.status(500).send({ error: 'ERROR' });
-    	} 
-    	else if(!item){
-        res.status(500).send({ error: 'This tweet either does not exist or you are not authorized to delete this tweet.' });
-    	}
-    	else{ 
-
         if(item.media){
-             Media.remove({_id: {$in: item.media}}, function(){
-                 res.status(200).send({ status: 'OK' });
-             });
+             Media.remove({_id: {$in: item.media}});
         }
-        else{
-           res.status(200).send({ status: 'OK' });
-        }
-    	}
-
     });
   };
   this.searchItem = function(req, res, next){
@@ -217,45 +204,19 @@ module.exports = function(){
   };
 
 this.addMedia = function(req, res, next){
-//    console.log("we are in here");
-    
-    
+
+  var id = ObjectID();
+      res.json({
+             "status": "OK",
+             "id"   : id
+            });
+
     var file = req.files;
-    
-//    if(!file){
-//	  console.log("Nope not woking");
-//   }
-//    else
-//	  console.log(file);
-
-//    console.log(file[0]);
-//    console.log(file[0].buffer);
-
-
     var image = new Media();
-//    console.log("created variable");
 
     image.media = file[0].buffer;
-
-//    console.log("gathered buffer");
-    
-    image.save(function(err, image){
-//	  console.log("you were able to save it");
-
-	  if(err){
-		console.error(err);
-		res.json({
-		    "status" : "error",
-		    "error" : "Something went wrong with the tweet"
-		});
-	  }
-	  else{
-		res.json({
-		  "status": "OK",
-		  "id"   : image._id
-		});
-	  }
-    });
+    image._id = id;
+    image.save();
 
 };
 
