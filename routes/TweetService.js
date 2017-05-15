@@ -113,18 +113,32 @@ module.exports = function(){
     });
   };
 
-  this.deleteItem = function(req, res, next){
-  	var tweet_id = req.params.id;
-  	var currentUser = req.user.username;
-
-    res.status(200).send({ status: 'OK' });
+ this.deleteItem = function(req, res, next){
+    var tweet_id = req.params.id;
+    var currentUser = req.user.username;
 
     Item.findOneAndRemove({ $and:[{'_id': tweet_id }, {'username': currentUser} ]}, function(err, item){
+      if (err){
+          res.status(500).send({ error: 'ERROR' });
+      } 
+      else if(!item){
+        res.status(500).send({ error: 'This tweet either does not exist or you are not authorized to delete this tweet.' });
+      }
+      else{ 
+
         if(item.media){
-             Media.remove({_id: {$in: item.media}});
+             Media.remove({_id: {$in: item.media}}, function(){
+                 res.status(200).send({ status: 'OK' });
+             });
         }
+        else{
+           res.status(200).send({ status: 'OK' });
+        }
+      }
+
     });
   };
+  
   this.searchItem = function(req, res, next){
   	var start_date;
     if(req.body.timestamp){
