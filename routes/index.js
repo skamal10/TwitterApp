@@ -10,6 +10,22 @@ router.get('/login', function(req, res, next) {
 	res.render('login');
 });
 
+router.get('/',function(req,res,next){
+  res.render('index');
+});
+
+router.get('/addtweet',function(req,res,next){
+  res.render('add_tweet');
+});
+
+router.get('/tweet',function(req,res,next){
+  res.render('tweet');
+});
+
+router.get('/followers', function(req,res,next){
+  res.render('followers');
+});
+
 router.get('/verify', function(req,res, next) {
   res.render('verify');
 });
