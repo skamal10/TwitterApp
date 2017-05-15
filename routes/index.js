@@ -18,6 +18,10 @@ router.get('/addtweet',function(req,res,next){
   res.render('add_tweet');
 });
 
+router.get('/nav' function(req,res,next){
+  res.render('nav');
+})
+
 router.get('/tweet',function(req,res,next){
   res.render('tweet');
 });
@@ -45,6 +49,7 @@ router.get('/search',function(req, res, next){
 router.get('/search',function(req, res, next){
   res.render('search');
 });
+
 
 router.get('/lb',function(req,res,next){
   res.send('TESTING!!!!!');
@@ -75,6 +80,8 @@ router.get('/media/:id',getMedia);
 var isLoggedIn = function(req, res, next){
    res.send(req.isAuthenticated() ? req.user : '0');
 }
+
+router.get('/loggedInUser', isLoggedIn);
 
 function ensureAuthenticated(req, res, next){
     if(req.isAuthenticated() && req.user){
