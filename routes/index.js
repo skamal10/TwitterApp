@@ -18,7 +18,7 @@ router.get('/addtweet',function(req,res,next){
   res.render('add_tweet');
 });
 
-router.get('/nav' function(req,res,next){
+router.get('/nav', function(req,res,next){
   res.render('nav');
 })
 
