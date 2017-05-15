@@ -158,7 +158,7 @@ module.exports = function(){
         numItems = 25;
     }
 
-    if(req.body.q){
+    if(req.body.q || req.body.parent || req.body.username){
      res.json({
       "status": "OK",
       "items"   : []
