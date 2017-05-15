@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 var explain = require('mongoose-explain');
 
 
-var conn = mongoose.createConnection('mongodb://127.0.0.1:27017/twitter_db', { server: { socketOptions: { keepAlive: 300000, connectTimeoutMS: 30000 } } });
+//var conn = mongoose.createConnection('mongodb://127.0.0.1:27017/twitter_db', { server: { socketOptions: { keepAlive: 300000, connectTimeoutMS: 30000 } } });
 
 var itemSchema = new mongoose.Schema({
     
@@ -30,6 +30,9 @@ itemSchema.virtual('timestamp').get(function(){return new Date(this.times)*1000;
 itemSchema.set('toJSON', {
     virtuals: true
 });
-itemSchema.index( {times: -1});
+//itemSchema.index( {times: -1});
 //itemSchema.index( {content: "text"} );
-module.exports = conn.model('Item', itemSchema);
+//module.exports = conn.model('Item', itemSchema);
+
+
+mongoose.model('Item', itemSchema);

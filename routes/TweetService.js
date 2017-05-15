@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
-var Item = require('../model/Item.js');
+//var Item = require('../model/Item.js');
+var Item = mongoose.model('Item');
 var Media = mongoose.model('Media');
 var Follows = mongoose.model('Follows');
 var ObjectID = require("bson-objectid");
