@@ -165,35 +165,35 @@ module.exports = function(){
     });
     }
     else{
-    var findByFollowing = req.body.following == null || req.body.following == true ? true : false;
+   //  var findByFollowing = req.body.following == null || req.body.following == true ? true : false;
 
-    if(findByFollowing){
-      var username = req.user.username;
-          Follows.find({'username': username}).distinct('follows').exec(function(err, following){
-            Item.find({ $and: 
-            [req.body.username ? {'username': req.body.username} : {}, 
-            { 'times': {$lte: start_date} },
-   //         req.body.q ? {$text: {$search: req.body.q}} : {},
-            { username: { $in: following } } ]}
-            ).limit(numItems).sort({times: -1}).maxTime(20000).exec(function(err, itemList) {     
-            if (err){
-                  res.json({
-                      "status" : "error",
-                      "error" : err.message
-                  });
-            }
-            else{
-                var return_items = {}
-                return_items.status = 'OK';
-                return_items.items = itemList;
-                res.send(return_items);
-            }
+   //  if(findByFollowing){
+   //    var username = req.user.username;
+   //        Follows.find({'username': username}).distinct('follows').exec(function(err, following){
+   //          Item.find({ $and: 
+   //          [req.body.username ? {'username': req.body.username} : {}, 
+   //          { 'times': {$lte: start_date} },
+   // //         req.body.q ? {$text: {$search: req.body.q}} : {},
+   //          { username: { $in: following } } ]}
+   //          ).limit(numItems).sort({times: -1}).maxTime(20000).exec(function(err, itemList) {     
+   //          if (err){
+   //                res.json({
+   //                    "status" : "error",
+   //                    "error" : err.message
+   //                });
+   //          }
+   //          else{
+   //              var return_items = {}
+   //              return_items.status = 'OK';
+   //              return_items.items = itemList;
+   //              res.send(return_items);
+   //          }
 
-            });
+   //          });
 
-      });
-    }
-  else{
+   //    });
+   //  }
+  //else{
         Item.find({ $and: 
             [req.body.username ? {'username': req.body.username} : {}, 
              req.body.parent ? {'parent' : req.body.parent} : {},
@@ -213,7 +213,7 @@ module.exports = function(){
             }
 
             });
-  }
+ // }
 }
 
   };

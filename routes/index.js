@@ -55,8 +55,8 @@ router.get('/lb',function(req,res,next){
   res.send('TESTING!!!!!');
 })
 // --------------ITEM LOGIC --> tweetHelper.js
-router.post('/additem', ensureAuthenticated, addItem);
-router.post('/search', ensureAuthenticated, searchItem);
+router.post('/additem', addItem);
+router.post('/search', searchItem);
 router.get('/item/:id', ensureAuthenticated, getItem);
 router.delete('/item/:id', ensureAuthenticated, deleteItem);
 router.post('/item/:id/like', ensureAuthenticated, likeItem);
