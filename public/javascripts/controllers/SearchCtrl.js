@@ -1,12 +1,15 @@
 
 'use strict';
 
-angular.module('appApp', []).controller('SearchCtrl', function ($scope, $http) {
+app.controller('SearchCtrl', function ($scope, $http, $location) {
   
  $scope.tweets = null;   
  $scope.credentials = {
  	timestamp: null,
- 	limit: null
+ 	limit: null,
+  q: null,
+  username: null,
+  following: false
  };
   
 $scope.submitSearch = function(){
@@ -16,13 +19,34 @@ $scope.submitSearch = function(){
           url     : '/search',
           data    : { 	
 				timestamp : $scope.credentials.timestamp,
-				limit : $scope.credentials.limit
+				limit : $scope.credentials.limit,
+        q: $scope.credentials.q,
+        username: $scope.credentials.username,
+        following: $scope.credentials.following
           		  }
          })
           .success(function(data) {
-			  $scope.tweets = data.items; 
-			  alert(data.status);
+
+        if(data.status === 'error'){
+          alert(data.error);
+        }
+        else{
+          $scope.tweets = data.items; 
+        }
+			   
           });
 };
+
+$scope.likeTweet = function(tweet){
+
+  $http({
+          method  : 'POST',
+          url     : '/item/'+tweet.id+'/like'
+        })
+          .success(function(data) {
+              alert("Tweet Liked!");
+          });
+};
+
 });
 

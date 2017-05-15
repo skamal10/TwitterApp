@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('appApp', []).controller('LoginCtrl', function ($scope, $http) {
+app.controller('LoginCtrl', function ($scope, $http, $routeParams,$location) {
    
  $scope.credentials= {
  	username: null,
@@ -19,7 +19,12 @@ $scope.submitLogin = function(){
           			}
          })
           .success(function(data) {
-          		alert(data.status);
+          		alert(data.message);
+
+              if(data.status === 'OK'){
+                $location.path('/');
+              }
+
           });
 };
 

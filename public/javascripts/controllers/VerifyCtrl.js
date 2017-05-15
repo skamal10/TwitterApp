@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('appApp', []).controller('VerifyCtrl', function ($scope, $http,$window) {
+app.controller('VerifyCtrl', function ($scope, $http,$routeParams, $location) {
    
  $scope.credentials= {
   email: null,
@@ -19,7 +19,14 @@ $scope.verify = function(){
           			}
          })
           .success(function(data) {
-          		$window.location.href = '/login';
+
+            if(data.status === 'OK'){
+
+          		$location.path('/login');
+            }
+            else{
+              alert("ERROR");
+            }
           });
   };
 

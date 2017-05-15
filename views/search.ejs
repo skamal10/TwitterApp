@@ -1,50 +1,26 @@
-
-<!doctype html>
-<html>
-  <head>
-    <meta charset="utf-8">
-      <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
-      <script src="https://code.angularjs.org/1.5.5/angular-cookies.min.js"></script>
-      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-
-<!-- jQuery library -->
-      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-      <script src="../javascripts/angularApp.js"></script>
-      <script src="../javascripts/controllers/SearchCtrl.js"></script>
-      <link rel="stylesheet" type="text/css" href="../stylesheets/stylesheet.css"> 
-    <title>Login</title>
-  </head>
-  <body ng-app="appApp">
-
-
-
-
-  <div ng-controller = 'SearchCtrl'  class="container">
+<div class="container">
 
     <div class="wrapper">
       <form class="form-signin">       
         <h2 class="form-signin-heading">Search</h2>
         <input type="number" class="form-control" name="timestamp" placeholder="Enter time" ng-model = credentials.timestamp />
-        <input type="number" class="form-control" name="limit" placeholder="Search limit" ng-model = credentials.limit />      
+        <input type="number" class="form-control" name="limit" placeholder="Search limit" ng-model = credentials.limit /> 
+        <input type="text" class="form-control" name="q" placeholder="Text Search" ng-model = credentials.q /> 
+        <input type="text" class="form-control" name="username" placeholder="Username" ng-model = credentials.username /> 
+        Following: <input type="checkbox" class="form-control" name="following"  ng-model = credentials.following />         
       <button class="btn btn-lg btn-primary" type="button" ng-click='submitSearch()'>Search</button>   
     </form>
   </div>
     <table class="table table-striped table-bordered">
 	  <tr ng-repeat="x in tweets">
-		<td>{{(x.timestamp * 1000) | date:'MM-dd-yyyy h:mm:ss a'}}</td>
-		<td>{{x.username}}</td>
+		<td >{{x.timestamp}}</td>
+		<td><a ng-href = "#/user/{{x.username}}">{{x.username}}</a></td>
 		<td>{{x.content}}</td>
+    <td>{{x.media[0]}}</td>
+    <td><button ng-click = "likeTweet(x)">Like Tweet</button></td>
+    <td><a ng-href = "#/get_tweet/{{x.id}}">View Tweet</a></td>
 	  </tr> 
     </table>   
 
 
   </div>
-
-
-
-
-
-
-
-</body>
-</html>

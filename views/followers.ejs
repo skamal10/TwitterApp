@@ -1,0 +1,27 @@
+
+  <div class="container">
+
+    <div class="wrapper row">
+        <h3>Followers</h3>
+      <div class="col-md-9" ng-repeat = "follows in followers">
+          <h3>{{follows.followedBy}}</h3>
+      </div>
+  </div>
+
+
+<div class="wrapper row">
+  <h3>Following</h3>
+      <div class="col-md-9" ng-repeat = "follows in following">
+          <h3>{{follows.followedBy}}</h3>
+      </div>
+</div>
+
+<div class= "row">
+  <button ng-click= "followUser()"> Follow User</button>
+</div>
+<div class= "row">
+  <button ng-click= "unFollowUser()"> UnFollow User</button>
+</div>
+
+</div>
+

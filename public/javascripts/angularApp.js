@@ -1,38 +1,66 @@
 'use strict';
 
-
-angular.
-module('myApp', []).
-  config(function ($routeProvider) {
+var app = angular.module('twitterApp', ['ngRoute']);
+app.config(function ($routeProvider) {
     $routeProvider
       .when('/', {
-        templateUrl:'views/index.ejs',
-        controller: 'HomeCtrl'
+        templateUrl:'addtweet',
+        controller: 'AddItemCtrl'
       })
       .when('/login', {
-        templateUrl:'views/login.ejs',
+        templateUrl:'login',
         controller: 'LoginCtrl'
       })
-      .when('/adduser', {
-        templateUrl:'views/register.ejs',
+      .when('/get_tweet/:id', {
+        templateUrl:'tweet',
+        controller: 'TweetCtrl'
+      })
+      .when('/register', {
+        templateUrl:'adduser',
         controller: 'RegisterCtrl'
       })
       .when('/verify', {
-        templateUrl:'views/verify.ejs',
+        templateUrl:'verify',
         controller: 'VerifyCtrl'
       })
-      .when('/additem', {
-        templateUrl:'views/add_tweet.ejs',
+      .when('/addtweet', {
+        templateUrl:'addtweet',
         controller: 'AddItemCtrl'
       })
       .when('/search', {
-        templateUrl:'views/search.ejs',
+        templateUrl:'search',
         controller: 'SearchCtrl'
+      })
+      .when('/user/:username',{
+        templateUrl:'followers',
+        controller: 'FollowersCtrl'
       })
       .otherwise({
         redirectTo: '/'
       });
   });
 
+app.run( function($rootScope, $location, $http) {
+
+    // register listener to watch route changes
+    $rootScope.$on( "$routeChangeStart", function(event, next, current) {
+
+      $http({
+          method  : 'GET',
+          url     : '/loggedInUser',
+         })
+          .success(function(data) {
+
+            var restrictedPage = $.inArray($location.path(), ['/login', '/register', '/verify']) === -1;
+            var loggedIn = data === '0';
+            if (restrictedPage && loggedIn) {
+                $location.path('/login');
+            }
+              
+
+
+          });
+    });
+ });
 
 

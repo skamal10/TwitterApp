@@ -1,24 +1,4 @@
-<!doctype html>
-<html>
-  <head>
-    <meta charset="utf-8">
-      <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
-      <script src="https://code.angularjs.org/1.5.5/angular-cookies.min.js"></script>
-      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
-<!-- jQuery library -->
-      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-      <script src="../javascripts/angularApp.js"></script>
-      <script src="../javascripts/controllers/LoginCtrl.js"></script>
-      <link rel="stylesheet" type="text/css" href="../stylesheets/stylesheet.css"> 
-    <title>Login</title>
-  </head>
-  <body ng-app="appApp">
-
-
-
-
-  <div ng-controller = 'LoginCtrl'  class="container">
 
     <div class="wrapper">
       <form class="form-signin">       
@@ -27,18 +7,11 @@
         <input type="password" class="form-control" name="password" placeholder="Password" ng-model = credentials.password />      
       <button class="btn btn-lg btn-primary btn-block" type="button" ng-click='submitLogin()'>Login</button>   
     </form>
+
+    <h4><a href= "#/register">Dont have an account? Sign up!</a></h4>
   </div>
       
 <button ng-click= 'viewLoggedInUser()'>CHECK </button>
 
 
   </div>
-
-
-
-
-
-
-
-</body>
-</html>

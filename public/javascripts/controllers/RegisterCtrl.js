@@ -1,7 +1,7 @@
 
 'use strict';
 
-angular.module('appApp', []).controller('RegisterCtrl', function ($scope, $http) {
+app.controller('RegisterCtrl', function ($scope, $http,$routeParams, $location) {
    
  $scope.credentials = {
  	username: null,
@@ -22,6 +22,7 @@ $scope.submitRegistration = function(){
          })
           .success(function(data) {
           		alert(data.status);
+              $location.path('verify');
           });
 };
 });

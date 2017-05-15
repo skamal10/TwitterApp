@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('appApp', []).controller('HomeCtrl', function ($scope) {
+app.controller('HomeCtrl', function ($scope) {
    
 $scope.posts = [
   'post 1',
