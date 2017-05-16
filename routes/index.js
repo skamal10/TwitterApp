@@ -57,10 +57,10 @@ router.get('/lb',function(req,res,next){
 // --------------ITEM LOGIC --> tweetHelper.js
 router.post('/additem', addItem);
 router.post('/search', searchItem);
-router.get('/item/:id', ensureAuthenticated, getItem);
-router.delete('/item/:id', ensureAuthenticated, deleteItem);
-router.post('/item/:id/like', ensureAuthenticated, likeItem);
-router.post('/addmedia', ensureAuthenticated, upload.any(), addMedia);
+router.get('/item/:id',  getItem);
+router.delete('/item/:id', deleteItem);
+router.post('/item/:id/like', likeItem);
+router.post('/addmedia', upload.any(), addMedia);
 
 // ---------------USER LOGIC --> UserService.js
 

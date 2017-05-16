@@ -1,5 +1,4 @@
 var mongoose = require('mongoose');
-//var Item = require('../model/Item.js');
 var Item = mongoose.model('Item');
 var Media = mongoose.model('Media');
 var Follows = mongoose.model('Follows');
@@ -32,20 +31,6 @@ module.exports = function(){
     }
 
     newItem.save();
-    // newItem.save(function(err, item){
-	   //  if(err || !item){
-	   //      res.json({
-	   //      "status" : "error",
-	   //      "error" : err
-	   //      });
-	   //  }
-	   //  else{
-	   //      res.json({
-	   //      "status": "OK",
-	   //      "id"   : newItem._id
-	   //      });
-	   //  }
-    // });
   };
 
   this.likeItem = function(req, res, next){
@@ -165,40 +150,11 @@ module.exports = function(){
     });
     }
     else{
-   //  var findByFollowing = req.body.following == null || req.body.following == true ? true : false;
-
-   //  if(findByFollowing){
-   //    var username = req.user.username;
-   //        Follows.find({'username': username}).distinct('follows').exec(function(err, following){
-   //          Item.find({ $and: 
-   //          [req.body.username ? {'username': req.body.username} : {}, 
-   //          { 'times': {$lte: start_date} },
-   // //         req.body.q ? {$text: {$search: req.body.q}} : {},
-   //          { username: { $in: following } } ]}
-   //          ).limit(numItems).sort({times: -1}).maxTime(20000).exec(function(err, itemList) {     
-   //          if (err){
-   //                res.json({
-   //                    "status" : "error",
-   //                    "error" : err.message
-   //                });
-   //          }
-   //          else{
-   //              var return_items = {}
-   //              return_items.status = 'OK';
-   //              return_items.items = itemList;
-   //              res.send(return_items);
-   //          }
-
-   //          });
-
-   //    });
-   //  }
-  //else{
         Item.find({ $and: 
             [req.body.username ? {'username': req.body.username} : {}, 
              req.body.parent ? {'parent' : req.body.parent} : {},
             { 'times': {$lte: start_date} }]}
-            ).limit(numItems).sort({times: -1}).maxTime(20000).exec(function(err, itemList) {     
+            ).limit(numItems).sort({times: -1}).exec(function(err, itemList) {     
             if (err){
                   res.json({
                       "status" : "error",
@@ -213,7 +169,6 @@ module.exports = function(){
             }
 
             });
- // }
 }
 
   };
