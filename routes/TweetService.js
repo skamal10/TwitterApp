@@ -12,7 +12,6 @@ module.exports = function(){
 
        // This function is gonna allow the user to add a post. For for we'll just
     // just gonna add this to a database. The front end will add it to the view.
-
     var id = ObjectID();
       res.json({
              "status": "OK",
@@ -33,20 +32,6 @@ module.exports = function(){
     }
 
     newItem.save();
-    // newItem.save(function(err, item){
-	   //  if(err || !item){
-	   //      res.json({
-	   //      "status" : "error",
-	   //      "error" : err
-	   //      });
-	   //  }
-	   //  else{
-	   //      res.json({
-	   //      "status": "OK",
-	   //      "id"   : newItem._id
-	   //      });
-	   //  }
-    // });
   };
 
   this.likeItem = function(req, res, next){
@@ -114,95 +99,86 @@ module.exports = function(){
     });
   };
 
-  this.deleteItem = function(req, res, next){
-  	var tweet_id = req.params.id;
-  	var currentUser = req.user.username;
-
-    res.status(200).send({ status: 'OK' });
+ this.deleteItem = function(req, res, next){
+    var tweet_id = req.params.id;
+    var currentUser = req.user.username;
 
     Item.findOneAndRemove({ $and:[{'_id': tweet_id }, {'username': currentUser} ]}, function(err, item){
+      if (err){
+          res.status(500).send({ error: 'ERROR' });
+      } 
+      else if(!item){
+        res.status(500).send({ error: 'This tweet either does not exist or you are not authorized to delete this tweet.' });
+      }
+      else{ 
+
         if(item.media){
-             Media.remove({_id: {$in: item.media}});
+             Media.remove({_id: {$in: item.media}}, function(){
+                 res.status(200).send({ status: 'OK' });
+             });
         }
+        else{
+           res.status(200).send({ status: 'OK' });
+        }
+      }
+
     });
   };
+  
   this.searchItem = function(req, res, next){
-  	var start_date;
-    if(req.body.timestamp){
-       
-          start_date = new Date(req.body.timestamp * 1000);
-    }
-    else{
-          start_date = new Date();
-    }
 
-    var numItems;
-
-    if(req.body.limit && req.body.limit<= 100){
-              numItems = req.body.limit;
-    }
-    else{
-        numItems = 25;
-    }
-
-    if(req.body.q){
-     res.json({
+    res.json({
       "status": "OK",
       "items"   : []
     });
-    }
-    else{
-    var findByFollowing = req.body.following == null || req.body.following == true ? true : false;
+    
+//   	var start_date;
+//     if(req.body.timestamp){
+       
+//           start_date = new Date(req.body.timestamp * 1000);
+//     }
+//     else{
+//           start_date = new Date();
+//     }
 
-    if(findByFollowing){
-      var username = req.user.username;
-          Follows.find({'username': username}).distinct('follows').exec(function(err, following){
-            Item.find({ $and: 
-            [req.body.username ? {'username': req.body.username} : {}, 
-            { 'times': {$lte: start_date} },
-   //         req.body.q ? {$text: {$search: req.body.q}} : {},
-            { username: { $in: following } } ]}
-            ).limit(numItems).sort({times: -1}).maxTime(20000).exec(function(err, itemList) {     
-            if (err){
-                  res.json({
-                      "status" : "error",
-                      "error" : err.message
-                  });
-            }
-            else{
-                var return_items = {}
-                return_items.status = 'OK';
-                return_items.items = itemList;
-                res.send(return_items);
-            }
+//     var numItems;
 
-            });
+//     if(req.body.limit && req.body.limit<= 100){
+//               numItems = req.body.limit;
+//     }
+//     else{
+//         numItems = 25;
+//     }
 
-      });
-    }
-  else{
-        Item.find({ $and: 
-            [req.body.username ? {'username': req.body.username} : {}, 
-             req.body.parent ? {'parent' : req.body.parent} : {},
-            { 'times': {$lte: start_date} }]}
-            ).limit(numItems).sort({times: -1}).maxTime(20000).exec(function(err, itemList) {     
-            if (err){
-                  res.json({
-                      "status" : "error",
-                      "error" : err.message
-                  });
-            }
-            else{
-                var return_items = {}
-                return_items.status = 'OK';
-                return_items.items = itemList;
-                res.send(return_items);
-            }
+//     if(req.body.q || req.body.parent || req.body.username){
+//      res.json({
+//       "status": "OK",
+//       "items"   : []
+//     });
 
-            });
-  }
-}
+//      console.timeEnd('search:');
+//     }
+//     else{
+//         Item.find({ $and: 
+//             [req.body.username ? {'username': req.body.username} : {}, 
+//              req.body.parent ? {'parent' : req.body.parent} : {},
+//             { 'times': {$lte: start_date} }]}
+//             ).limit(numItems).sort({times: -1}).exec(function(err, itemList) {     
+//             if (err){
+//                   res.json({
+//                       "status" : "error",
+//                       "error" : err.message
+//                   });
+//             }
+//             else{
+//                 var return_items = {}
+//                 return_items.status = 'OK';
+//                 return_items.items = itemList;
+//                 res.send(return_items);
+//             }
 
+//             });
+// }
   };
 
 this.addMedia = function(req, res, next){

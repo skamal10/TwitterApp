@@ -10,6 +10,26 @@ router.get('/login', function(req, res, next) {
 	res.render('login');
 });
 
+router.get('/',function(req,res,next){
+  res.render('index');
+});
+
+router.get('/addtweet',function(req,res,next){
+  res.render('add_tweet');
+});
+
+router.get('/nav', function(req,res,next){
+  res.render('nav');
+})
+
+router.get('/tweet',function(req,res,next){
+  res.render('tweet');
+});
+
+router.get('/followers', function(req,res,next){
+  res.render('followers');
+});
+
 router.get('/verify', function(req,res, next) {
   res.render('verify');
 });
@@ -30,16 +50,17 @@ router.get('/search',function(req, res, next){
   res.render('search');
 });
 
+
 router.get('/lb',function(req,res,next){
   res.send('TESTING!!!!!');
 })
 // --------------ITEM LOGIC --> tweetHelper.js
-router.post('/additem', ensureAuthenticated, addItem);
-router.post('/search', ensureAuthenticated, searchItem);
-router.get('/item/:id', ensureAuthenticated, getItem);
-router.delete('/item/:id', ensureAuthenticated, deleteItem);
-router.post('/item/:id/like', ensureAuthenticated, likeItem);
-router.post('/addmedia', ensureAuthenticated, upload.any(), addMedia);
+router.post('/additem', addItem);
+router.post('/search', searchItem);
+router.get('/item/:id',  getItem);
+router.delete('/item/:id', deleteItem);
+router.post('/item/:id/like', likeItem);
+router.post('/addmedia', upload.any(), addMedia);
 
 // ---------------USER LOGIC --> UserService.js
 
@@ -59,6 +80,8 @@ router.get('/media/:id',getMedia);
 var isLoggedIn = function(req, res, next){
    res.send(req.isAuthenticated() ? req.user : '0');
 }
+
+router.get('/loggedInUser', isLoggedIn);
 
 function ensureAuthenticated(req, res, next){
     if(req.isAuthenticated() && req.user){

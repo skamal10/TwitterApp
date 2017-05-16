@@ -32,6 +32,7 @@ module.exports = function(){
 				      return res.send({ status : "OK", message : 'authentication succeeded' });
 				    });      
 				  })(req, res, next);
+
 		};
 
 		this.logout = function(req, res, next){
