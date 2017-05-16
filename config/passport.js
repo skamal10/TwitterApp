@@ -5,11 +5,11 @@ var User = mongoose.model('User');
 
 
 passport.serializeUser(function(user, done) {
-        done(null, user.username);
+        done(null, user._id);
 });
 
-passport.deserializeUser(function(username, done) {
-    User.findOne({'username': username}, function(err, user) {
+passport.deserializeUser(function(id, done) {
+    User.findById(id, function(err, user) {
         done(err, user);
     });
 });
