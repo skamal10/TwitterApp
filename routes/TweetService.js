@@ -124,53 +124,59 @@ module.exports = function(){
   };
   
   this.searchItem = function(req, res, next){
-  	var start_date;
-    if(req.body.timestamp){
-       
-          start_date = new Date(req.body.timestamp * 1000);
-    }
-    else{
-          start_date = new Date();
-    }
 
-    var numItems;
-
-    if(req.body.limit && req.body.limit<= 100){
-              numItems = req.body.limit;
-    }
-    else{
-        numItems = 25;
-    }
-
-    if(req.body.q || req.body.parent || req.body.username){
-     res.json({
+    res.json({
       "status": "OK",
       "items"   : []
     });
+    
+//   	var start_date;
+//     if(req.body.timestamp){
+       
+//           start_date = new Date(req.body.timestamp * 1000);
+//     }
+//     else{
+//           start_date = new Date();
+//     }
 
-     console.timeEnd('search:');
-    }
-    else{
-        Item.find({ $and: 
-            [req.body.username ? {'username': req.body.username} : {}, 
-             req.body.parent ? {'parent' : req.body.parent} : {},
-            { 'times': {$lte: start_date} }]}
-            ).limit(numItems).sort({times: -1}).exec(function(err, itemList) {     
-            if (err){
-                  res.json({
-                      "status" : "error",
-                      "error" : err.message
-                  });
-            }
-            else{
-                var return_items = {}
-                return_items.status = 'OK';
-                return_items.items = itemList;
-                res.send(return_items);
-            }
+//     var numItems;
 
-            });
-}
+//     if(req.body.limit && req.body.limit<= 100){
+//               numItems = req.body.limit;
+//     }
+//     else{
+//         numItems = 25;
+//     }
+
+//     if(req.body.q || req.body.parent || req.body.username){
+//      res.json({
+//       "status": "OK",
+//       "items"   : []
+//     });
+
+//      console.timeEnd('search:');
+//     }
+//     else{
+//         Item.find({ $and: 
+//             [req.body.username ? {'username': req.body.username} : {}, 
+//              req.body.parent ? {'parent' : req.body.parent} : {},
+//             { 'times': {$lte: start_date} }]}
+//             ).limit(numItems).sort({times: -1}).exec(function(err, itemList) {     
+//             if (err){
+//                   res.json({
+//                       "status" : "error",
+//                       "error" : err.message
+//                   });
+//             }
+//             else{
+//                 var return_items = {}
+//                 return_items.status = 'OK';
+//                 return_items.items = itemList;
+//                 res.send(return_items);
+//             }
+
+//             });
+// }
   };
 
 this.addMedia = function(req, res, next){
