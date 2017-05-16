@@ -18,6 +18,7 @@ var nodemailer = require('nodemailer');
 module.exports = function(){
 
 		this.login = function (req, res, next) {
+			console.time('login');
 			  passport.authenticate('local', function(err, user, info) {
 				    if (err) { 
 				      return next(err); 
@@ -32,6 +33,8 @@ module.exports = function(){
 				      return res.send({ status : "OK", message : 'authentication succeeded' });
 				    });      
 				  })(req, res, next);
+
+			console.time('login');
 		};
 
 		this.logout = function(req, res, next){

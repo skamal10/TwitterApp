@@ -10,7 +10,7 @@ module.exports = function(){
 
        // This function is gonna allow the user to add a post. For for we'll just
     // just gonna add this to a database. The front end will add it to the view.
-
+    console.time('add-item');
     var id = ObjectID();
       res.json({
              "status": "OK",
@@ -31,6 +31,8 @@ module.exports = function(){
     }
 
     newItem.save();
+
+    console.timeEnd('add-item');
   };
 
   this.likeItem = function(req, res, next){
@@ -125,6 +127,7 @@ module.exports = function(){
   };
   
   this.searchItem = function(req, res, next){
+    console.time('search:');
   	var start_date;
     if(req.body.timestamp){
        
@@ -170,7 +173,7 @@ module.exports = function(){
 
             });
 }
-
+console.timeEnd('search');
   };
 
 this.addMedia = function(req, res, next){
