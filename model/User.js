@@ -2,6 +2,9 @@ var mongoose = require('mongoose');
 var crypto = require('crypto');
 var explain = require('mongoose-explain');
 
+
+//var conn = mongoose.createConnection('mongodb://127.0.0.1:27017/twitter_db', { server: { socketOptions: { keepAlive: 300000, connectTimeoutMS: 30000 } } });
+
 var userSchema = new mongoose.Schema({  
   verified: {
   	type: Boolean,
@@ -49,3 +52,4 @@ userSchema.methods.validateAccount = function(validateKey){
 userSchema.virtual('id').get(function() { return this._id; });
 
 mongoose.model('User', userSchema);
+//module.exports = conn.model('Item', itemSchema);
