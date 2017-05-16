@@ -49,7 +49,7 @@ app.use(session({
      store: new MongoStore( {mongooseConnection: mongoose.connection}),
      resave: false,
      saveUninitialized: true
-     //cookie: { maxAge: 5000 }
+     cookie: { maxAge: 40000 }
 }));
 
 
