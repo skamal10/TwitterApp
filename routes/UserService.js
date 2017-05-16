@@ -30,11 +30,11 @@ module.exports = function(){
 				      if (loginErr) { 
 				        return next(loginErr);
 				      }
+				      console.timeEnd('login');
 				      return res.send({ status : "OK", message : 'authentication succeeded' });
 				    });      
 				  })(req, res, next);
 
-			console.timeEnd('login');
 		};
 
 		this.logout = function(req, res, next){

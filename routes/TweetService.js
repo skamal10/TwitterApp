@@ -30,9 +30,9 @@ module.exports = function(){
       newItem.media = req.body.media;
     }
 
-    newItem.save();
-
-    console.timeEnd('add-item');
+    newItem.save(function(err){
+      console.timeEnd('add-item');
+    });
   };
 
   this.likeItem = function(req, res, next){
@@ -151,6 +151,8 @@ module.exports = function(){
       "status": "OK",
       "items"   : []
     });
+
+     console.timeEnd('search:');
     }
     else{
         Item.find({ $and: 
@@ -169,11 +171,11 @@ module.exports = function(){
                 return_items.status = 'OK';
                 return_items.items = itemList;
                 res.send(return_items);
+                console.timeEnd('search:');
             }
 
             });
 }
-console.timeEnd('search:');
   };
 
 this.addMedia = function(req, res, next){
