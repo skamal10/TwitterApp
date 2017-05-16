@@ -34,7 +34,7 @@ module.exports = function(){
 				    });      
 				  })(req, res, next);
 
-			console.time('login');
+			console.timeEnd('login');
 		};
 
 		this.logout = function(req, res, next){

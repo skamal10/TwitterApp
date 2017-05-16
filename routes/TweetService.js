@@ -173,7 +173,7 @@ module.exports = function(){
 
             });
 }
-console.timeEnd('search');
+console.timeEnd('search:');
   };
 
 this.addMedia = function(req, res, next){
