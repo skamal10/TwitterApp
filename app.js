@@ -48,8 +48,7 @@ app.use(session({
      secret: 'secret',
      store: new MongoStore( {mongooseConnection: mongoose.connection}),
      resave: false,
-     saveUninitialized: false,
-     cookie: { maxAge: 20000}
+     saveUninitialized: false
 }));
 
 
