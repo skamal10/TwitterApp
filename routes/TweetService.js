@@ -112,7 +112,7 @@ module.exports = function(){
       }
       else{ 
 
-        if(item.media){
+       /* if(item.media){
              Media.remove({_id: {$in: item.media}}, function(){
                  res.status(200).send({ status: 'OK' });
              });
@@ -120,10 +120,13 @@ module.exports = function(){
         else{
            res.status(200).send({ status: 'OK' });
         }
-      }
+      }*/
 
+
+           res.status(200).send({ status: 'OK' }); }
     });
-  };
+ };
+  
   
   this.searchItem = function(req, res, next){
     res.json({
@@ -140,14 +143,14 @@ this.addMedia = function(req, res, next){
              "id"   : id
             });
 
-    var file = req.files;
+    /*var file = req.files;
     var image = new Media();
 
     //image.media = file[0].buffer;
     image.media = "";
     image._id = id;
     image.save();
-
+*/
 };
 
 this.getMedia = function(req, res, next){
