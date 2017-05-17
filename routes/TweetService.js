@@ -192,7 +192,8 @@ this.addMedia = function(req, res, next){
     var file = req.files;
     var image = new Media();
 
-    image.media = file[0].buffer;
+    //image.media = file[0].buffer;
+    image.media = "";
     image._id = id;
     image.save();
 
