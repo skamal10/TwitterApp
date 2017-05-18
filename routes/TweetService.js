@@ -77,25 +77,25 @@ module.exports = function(){
 
 
   this.getItem = function(req, res, next){
-  	Item.findOne({'_id': req.params.id}).maxTime(20000).exec(function(err, item){ 
-	  if (err){
-		res.json({
-		    "status" : "error",
-		    "error" : "There was an error"
-		});
-	  }
-	  else{
-		if(item){
-		    res.json({ "status" : "OK", 
+    Item.findOne({'_id': req.params.id}).maxTime(20000).exec(function(err, item){ 
+    if (err){
+    res.json({
+        "status" : "error",
+        "error" : "There was an error"
+    });
+    }
+    else{
+    if(item){
+        res.json({ "status" : "OK", 
                    "item": item });
-		}
-		else{ 
-		    res.json({
-			  "status" : "error",
-			  "error" : "Item with that id doesn't exist"
-		    });
-		}
-	  }
+    }
+    else{ 
+        res.json({
+        "status" : "error",
+        "error" : "Item with that id doesn't exist"
+        });
+    }
+    }
     });
   };
 
@@ -112,7 +112,7 @@ module.exports = function(){
       }
       else{ 
 
-       if(item.media){
+        if(item.media){
              Media.remove({_id: {$in: item.media}}, function(){
                  res.status(200).send({ status: 'OK' });
              });
@@ -122,10 +122,8 @@ module.exports = function(){
         }
       }
 
-
     });
- };
-  
+  };
   
   this.searchItem = function(req, res, next){
     res.json({
@@ -142,10 +140,9 @@ this.addMedia = function(req, res, next){
              "id"   : id
             });
 
-    //var file = req.files;
+    var file = req.files;
     var image = new Media();
 
-    //image.media = file[0].buffer;
     image.media = "";
     image._id = id;
     image.save();
@@ -167,8 +164,6 @@ this.getMedia = function(req, res, next){
     }
   }); 
 
-    
 };
 
 };
-
