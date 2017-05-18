@@ -143,7 +143,7 @@ this.addMedia = function(req, res, next){
             });
 
     //var file = req.files;
-    //var image = new Media();
+    var image = new Media();
 
     //image.media = file[0].buffer;
     image.media = "";
